@@ -45,7 +45,7 @@ Fraccion multiplicar(Fraccion a, Fraccion b)
  * @b: La segunda fracción
  * 
  * Se intercambian el numerador y el denominador de @b y luego se
- * multiplican ambas fracciones.
+ * multiplican ambas fracciones por medio de la función multiplicar().
  * Esto es debido a que (a/b)/(c/d) = ad/bc = (a/b)*(d/c).
  */
 Fraccion dividir(Fraccion a, Fraccion b)
