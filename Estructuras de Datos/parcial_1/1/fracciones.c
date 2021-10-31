@@ -18,7 +18,7 @@ Fraccion sumar(Fraccion a, Fraccion b)
  * @b: La segunda fracción
  * 
  * La función multiplica el numerador de @b por -1 y realiza
- * la suma de ambos números por medio de la función sumar().
+ * la suma de ambas fracciones por medio de la función sumar().
  * Esto partiendo del hecho que a - b = a + (-b).
  */
 Fraccion restar(Fraccion a, Fraccion b)
