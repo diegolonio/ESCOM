@@ -4,7 +4,7 @@
 int main(void)
 {
     Fraccion fraccion_a, fraccion_b, resultado;
-    int opc; // Para guardar la opción que el usuario eliga
+    int opc; // Para guardar la opción que el usuario elija
     char nosi; // Para guardar el sí/no del usuario al finalizar una operación
 
     do {
