@@ -182,23 +182,8 @@ void agregar_signo_i(char numero[], char destino[])
     int longitud; // Número de caracteres de @numero
     int indice;
 
-    longitud = strlen(numero);
-
-    /**
-     * +2 para el signo y la unidad imaginaria 1
-     * +1 para agregar '\0'
-     */
-    char tmp[longitud+3]; // 
-
-    /**
-     * En el formato: ±ib, el primer caracter es el signo del
-     * número, es decir, la posición 0 del arreglo tmp[]
-     */
-    if (numero[0] != '-') { // Si el número NO es negativo
-        tmp[0] = '+';
-    } else {
-        tmp[0] = '-';
-    }
+    longitud = strlen(numero) + 1; // +1 para agregar '\0'
+    char tmp[longitud+2]; // +2 para el signo y la unidad imaginaria 1
 
     /**
      * En el formato: ±ib, el segundo caracter es la unidad
@@ -206,6 +191,19 @@ void agregar_signo_i(char numero[], char destino[])
      */
     tmp[1] = 'i';
 
-    strcat(tmp, numero);
+    if (numero[0] != '-') { // Si el número NO es negativo
+        tmp[0] = '+'; 
+        
+        /* Copiamos el número positivo */
+        for (indice = 0; indice < longitud; indice++)
+            tmp[indice+2] = numero[indice];
+    } else {
+        tmp[0] = '-';
+
+        /* Copiamos el número negativo sin el signo */
+        for (indice = 1; indice < longitud; indice++)
+            tmp[indice+1] = numero[indice];
+    }
+
     strcpy(destino, tmp);
 }
