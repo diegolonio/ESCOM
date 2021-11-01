@@ -52,7 +52,7 @@ bool es_null(Pila *pila)
     if (pila != NULL)
         return false;
 
-    printf ("Tu pila es nula.\n");
+    printf("Tu pila es nula.\n");
 
     return true;
 }
@@ -62,7 +62,7 @@ bool esta_vacia(Pila pila)
     if (pila.cima > -1)
         return false;
 
-    printf ("Tu pila esta vacia.\n");
+    printf("Tu pila esta vacia.\n");
 
     return true;
 }
@@ -72,7 +72,7 @@ bool esta_llena(Pila pila)
     if (pila.cima < pila.capacidad-1)
         return false;
 
-    printf ("Tu pila esta llena.\n");
+    printf("Tu pila esta llena.\n");
 
     return true;
 }
