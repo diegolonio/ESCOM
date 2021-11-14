@@ -253,7 +253,7 @@ int yylex()
 
         *p = 0;
         yylval.sym = (Symbol *)emalloc(strlen(sbuf)+1);
-        strcpy(yylval.sym->u.str, sbuf);
+        strcpy(yylval.sym, sbuf);
 
         return STRING;
     }
