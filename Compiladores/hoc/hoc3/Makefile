@@ -8,7 +8,7 @@ hoc.o : hoc.tab.c hoc.h
 	@gcc -c hoc.tab.c -o hoc.o
 
 hoc.tab.c : hoc.y
-	@bison -d hoc.y
+	@bison -Wno-conflicts-sr -d hoc.y
 
 init.o : init.c hoc.h hoc.tab.h
 	@gcc -c init.c -o init.o

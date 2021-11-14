@@ -1,14 +1,15 @@
 OBJS = hoc.o init.o math.o symbol.o code.o
+DISWARNS = -Wno-pointer-to-int-cast -Wno-int-conversion -Wno-int-to-pointer-cast -Wno-incompatible-pointer-types
 
 hoc : $(OBJS) hoc.h
 	@gcc $(OBJS) -o hoc -lm
 	@echo "-*Compilación completada*-"
 
 hoc.o : hoc.tab.c hoc.h
-	@gcc -c hoc.tab.c -o hoc.o
+	@gcc $(DISWARNS) -c hoc.tab.c -o hoc.o
 
 hoc.tab.c : hoc.y
-	@bison -d hoc.y
+	@bison -Wno-conflicts-sr -d hoc.y
 
 init.o : init.c hoc.h hoc.tab.h
 	@gcc -c init.c -o init.o
@@ -20,7 +21,7 @@ symbol.o : symbol.c hoc.h hoc.tab.h
 	@gcc -c symbol.c -o symbol.o
 
 code.o : code.c hoc.h hoc.tab.h
-	@gcc -c code.c -o code.o
+	@gcc $(DISWARNS) -c code.c -o code.o
 
 .PHONY : all clean
 
