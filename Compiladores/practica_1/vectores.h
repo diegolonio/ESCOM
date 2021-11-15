@@ -28,6 +28,7 @@ Vector *resta(Vector *, Vector *);
 int punto(Vector *, Vector *);
 Vector *cruz(Vector *, Vector *);
 Vector *ppescalar(int, Vector *);
-int norma(Vector *vector);
+int norma(Vector *);
+int dimension(Vector *);
 
 #endif /* _VECTORES_H_ */

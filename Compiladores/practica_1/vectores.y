@@ -2,12 +2,15 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <stdbool.h>
 #include "vectores.h"
 
 /* Funciones del parser */
 void yyerror(char *s);
 int yylex();
 void warning(char *s, char *t);
+
+bool tamano_diferente = false;
 
 %}
 
@@ -24,35 +27,75 @@ void warning(char *s, char *t);
 
 %left '+' '-'
 %left 'x' '*'
+%left UNARYMINUS
 
 %%
 
 list:  
     | list '\n'
-    | list exp '\n' { mostrar_vector($2); liberar_vector($2); }
-    | list escalar '\n' { printf("%d\n", $2); }
+    | list exp '\n' { if (!tamano_diferente) { printf("\t"); mostrar_vector($2); liberar_vector($2); } }
+    | list escalar '\n' { if (!tamano_diferente) printf("\t%d\n", $2); }
     ;
 
 exp: vector { $$ = $1; }
-    | exp '+' exp { $$ = suma($1, $3); liberar_vector($1); liberar_vector($3); }
-    | exp '-' exp { $$ = resta($1, $3); liberar_vector($1); liberar_vector($3); }
-    | exp 'x' exp { $$ = cruz($1, $3); liberar_vector($1); liberar_vector($3); }
+    | exp '+' exp {
+		if (dimension($1) != dimension($3)) {
+			printf("Los vectores deben tener la misma dimensión\n");
+			tamano_diferente = true;
+		} else {
+			$$ = suma($1, $3);
+			tamano_diferente = false;
+		}
+		liberar_vector($1); liberar_vector($3);
+	}
+    | exp '-' exp {
+		if (dimension($1) != dimension($3)) {
+			printf("Los vectores deben tener la misma dimensión\n");
+			tamano_diferente = true;
+		} else {
+			$$ = resta($1, $3);
+			tamano_diferente = false;
+		}
+		liberar_vector($1); liberar_vector($3);
+	}
+    | exp 'x' exp {
+		if (dimension($1) != 3 || dimension($3) != 3) {
+			printf("El producto cruz solo puede realizarse con vectores de dimensión 3\n");
+			tamano_diferente = true;
+		} else {
+			$$ = cruz($1, $3);
+			tamano_diferente = false;
+		}
+		liberar_vector($1); liberar_vector($3);
+	}
     | escalar '*' exp { $$ = ppescalar($1, $3); liberar_vector($3); }
     | exp '*' escalar { $$ = ppescalar($3, $1); liberar_vector($1); }
     | '(' exp ')' { $$ = $2; }
     ;
 
-escalar:  exp '*' exp { $$ = punto($1, $3); liberar_vector($1); liberar_vector($3); }
+escalar:  exp '*' exp {
+		if (dimension($1) != dimension($3)) {
+			printf("Los vectores deben tener la misma dimensión\n");
+			tamano_diferente = true;
+		} else {
+			$$ = punto($1, $3);
+			tamano_diferente = false;
+		}
+		liberar_vector($1); liberar_vector($3);
+	}
 	| '|' exp '|' { $$ = norma($2); liberar_vector($2); }
 	| NUMERO { $$ = $1; }
+	| '-' NUMERO %prec UNARYMINUS { $$ = -$2; }
+	| '(' escalar ')' { $$ = $2; }
 	;
 
 vector: '[' componente ']' { $$ = crear_vector($2); }
 	;
 
 componente:  NUMERO ',' componente { $$ = crear_componente($1, $3); }
-	   | NUMERO { $$ = crear_componente($1, NULL); }
-	   ;
+	| NUMERO { $$ = crear_componente($1, NULL); }
+	| '-' NUMERO %prec UNARYMINUS { $$ = crear_componente(-$2, NULL); }
+	;
 
 %%
 

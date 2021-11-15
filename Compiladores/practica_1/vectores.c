@@ -44,6 +44,9 @@ void insertar_componente(Vector *vector, int valor)
 
 void mostrar_vector(Vector *vector)
 {
+	if (vector == NULL)
+		return;
+	
 	printf("[%d", vector->caminante->valor);
 	vector->caminante = vector->caminante->siguiente;
 
@@ -58,6 +61,9 @@ void mostrar_vector(Vector *vector)
 
 void liberar_vector(Vector *vector)
 {
+	if (vector == NULL)
+		return;
+
 	Componente *auxiliar = vector->caminante->siguiente;
 
 	while (vector->componente_inicial->siguiente != NULL) {
@@ -77,6 +83,20 @@ void liberar_vector(Vector *vector)
 	vector->caminante = NULL;
 	free(auxiliar);
 	free(vector);
+}
+
+int dimension(Vector *vector)
+{
+	int dimension = 0;
+
+	while (vector->caminante != NULL) {
+		dimension = dimension + 1;
+		vector->caminante = vector->caminante->siguiente;
+	}
+
+	vector->caminante = vector->componente_inicial;
+
+	return dimension;
 }
 
 /* Operaciones con vectores */
