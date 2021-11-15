@@ -40,6 +40,7 @@ void yyerror(char *s);
 int yylex();
 void advertencia(char *s, char *t);
 void ejecutar_error(char *, char *);
+void inicializar();
 
 /* Tabla de símbolos */
 
@@ -48,6 +49,7 @@ typedef struct Simbolo {
 	short tipo;
 	union {
 		Vector *vector;
+		int (*apuntador)(Vector *);
 	} u;
 	struct Simbolo *siguiente;
 } Simbolo;

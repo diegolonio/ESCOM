@@ -18,7 +18,7 @@ bool tamano_diferente = false;
 }
 
 %token <escalar> NUMERO
-%token <simbolo> VARIABLE INDEFINIDO
+%token <simbolo> VARIABLE INDEFINIDO FUNPREDEF
 %type <vector> asignacion expresion vector
 %type <componente> componente
 %type <escalar> escalar
@@ -30,21 +30,23 @@ bool tamano_diferente = false;
 
 %%
 
-lista:  
-    | lista '\n'
-	| lista asignacion '\n'
+lista: /* Epsilon */ { printf(">>> "); }
+    | lista '\n' { printf(">>> "); } 
+	| lista asignacion '\n' { printf(">>> "); }
     | lista expresion '\n' {
 			if (!tamano_diferente) {
 				printf("\t"); mostrar_vector($2);
 			} 
 			tamano_diferente = false;
+			printf(">>> ");
 		}
     | lista escalar '\n' {
 			if (!tamano_diferente)
 				printf("\t%d\n", $2);
 			tamano_diferente = false;
+			printf(">>> ");
 		}
-	| lista error '\n' { yyerrok; }
+	| lista error '\n' { yyerrok; printf(">>> "); }
     ;
 
 asignacion: VARIABLE '=' expresion { $$ = $1->u.vector = $3; $1->tipo = VARIABLE; }
@@ -99,6 +101,7 @@ escalar:  expresion '*' expresion {
 	| NUMERO { $$ = $1; }
 	| '-' NUMERO %prec MENOSUNARIO { $$ = -$2; }
 	| '(' escalar ')' { $$ = $2; }
+	| FUNPREDEF '(' expresion ')' { $$ = (*($1->u.apuntador))($3); }
 	;
 
 vector: '[' componente ']' { $$ = crear_vector($2); }
@@ -118,6 +121,7 @@ jmp_buf inicio;
 int main(int argc, char *argv[])
 {
 	nombre_programa = argv[0];
+	inicializar();
 	setjmp(inicio);
 	yyparse();
 
