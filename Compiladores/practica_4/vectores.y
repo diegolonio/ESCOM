@@ -11,17 +11,18 @@ bool tamano_diferente = false;
 %}
 
 %union {
-	int escalar;
-	Vector *vector;
-	Componente *componente;
+	// int escalar;
+	// Vector *vector;
+	// Componente *componente;
+	Instruccion *instruccion;
 	Simbolo *simbolo;
 }
 
-%token <escalar> NUMERO
-%token <simbolo> VARIABLE INDEFINIDO FUNPREDEF
-%type <vector> asignacion expresion vector
-%type <componente> componente
-%type <escalar> escalar
+// %token <escalar> ESCALAR
+%token <simbolo> ESCALAR VARIABLE INDEFINIDO FUNPREDEF
+// %type <vector> asignacion expresion vector
+// %type <componente> componente
+// %type <escalar> escalar
 
 %right '='
 %left '+' '-'
@@ -32,84 +33,107 @@ bool tamano_diferente = false;
 
 lista: /* Epsilon */ { printf(">>> "); }
     | lista '\n' { printf(">>> "); } 
-	| lista asignacion '\n' { printf(">>> "); }
+	| lista asignacion '\n' { printf(">>> "); codigo(pop); codigo(STOP); return 1; }
     | lista expresion '\n' {
-			if (!tamano_diferente) {
-				printf("\t"); mostrar_vector($2);
-			} 
-			tamano_diferente = false;
+			// if (!tamano_diferente) {
+			// 	printf("\t"); mostrar_vector($2);
+			// } 
+			// tamano_diferente = false;
+			codigo(imprimir_vector); codigo(STOP); return 1;
 			printf(">>> ");
 		}
     | lista escalar '\n' {
-			if (!tamano_diferente)
-				printf("\t%d\n", $2);
-			tamano_diferente = false;
+			// if (!tamano_diferente)
+			// 	printf("\t%d\n", $2);
+			// tamano_diferente = false;
+			codigo(imprimir_escalar); codigo(STOP); return 1;
 			printf(">>> ");
 		}
 	| lista error '\n' { yyerrok; printf(">>> "); }
     ;
 
-asignacion: VARIABLE '=' expresion { $$ = $1->u.vector = $3; $1->tipo = VARIABLE; }
+asignacion: VARIABLE '=' expresion { /*$$ = $1->u.vector = $3; $1->tipo = VARIABLE;*/
+			codigo(insertar_variable); codigo($1); codigo(asignacion); 
+		}
 	;
 
-expresion: vector { $$ = $1; }
-	| '-' VARIABLE %prec MENOSUNARIO { $$ = ppescalar(-1, $2->u.vector); }
+expresion: vector { /*$$ = $1;*/ }
+	| '-' VARIABLE %prec MENOSUNARIO { /*$$ = ppescalar(-1, $2->u.vector);*/ 
+			codigo(insertar_variable); codigo($1); codigo(evaluar); codigo(vector_negativo);
+		}
 	| VARIABLE {
-			if ($1->tipo == INDEFINIDO)
-				ejecutar_error("variable indefinida", $1->nombre);
-			$$ = $1->u.vector;
+			// if ($1->tipo == INDEFINIDO)
+			// 	ejecutar_error("variable indefinida", $1->nombre);
+			// $$ = $1->u.vector;
+			codigo(insertar_variable); codigo($1); codigo(evaluar);
 		}
 	| asignacion
     | expresion '+' expresion {
-			if (dimension($1) != dimension($3)) {
-				printf("Los vectores deben tener la misma dimensión\n");
-				tamano_diferente = true;
-			} else {
-				$$ = suma($1, $3);
-			}
+			// if (dimension($1) != dimension($3)) {
+			// 	printf("Los vectores deben tener la misma dimensión\n");
+			// 	tamano_diferente = true;
+			// } else {
+			// 	$$ = suma($1, $3);
+			// }
+			codigo(maquina_suma);
 		}
     | expresion '-' expresion {
-			if (dimension($1) != dimension($3)) {
-				printf("Los vectores deben tener la misma dimensión\n");
-				tamano_diferente = true;
-			} else {
-				$$ = resta($1, $3);
-			}
+			// if (dimension($1) != dimension($3)) {
+			// 	printf("Los vectores deben tener la misma dimensión\n");
+			// 	tamano_diferente = true;
+			// } else {
+			// 	$$ = resta($1, $3);
+			// }
+			codigo(maquina_resta);
 		}
     | expresion 'x' expresion {
-			if (dimension($1) != 3 || dimension($3) != 3) {
-				printf("El producto cruz solo puede realizarse con vectores de dimensión 3\n");
-				tamano_diferente = true;
-			} else {
-				$$ = cruz($1, $3);
-			}
+			// if (dimension($1) != 3 || dimension($3) != 3) {
+			// 	printf("El producto cruz solo puede realizarse con vectores de dimensión 3\n");
+			// 	tamano_diferente = true;
+			// } else {
+			// 	$$ = cruz($1, $3);
+			// }
+			codigo(maquina_cruz);
 		}
-    | escalar '*' expresion { $$ = ppescalar($1, $3); }
-    | expresion '*' escalar { $$ = ppescalar($3, $1); }
-    | '(' expresion ')' { $$ = $2; }
+    | escalar '*' expresion { /*$$ = ppescalar($1, $3);*/ codigo(maquina_ppescalar); }
+    | expresion '*' escalar { /*$$ = ppescalar($3, $1);*/ codigo(maquina_ppescalar); }
+    | '(' expresion ')' { /*$$ = $2;*/ }
     ;
 
 escalar:  expresion '*' expresion {
-			if (dimension($1) != dimension($3)) {
-				printf("Los vectores deben tener la misma dimensión\n");
-				tamano_diferente = true;
-			} else {
-				$$ = punto($1, $3);
-			}
+			// if (dimension($1) != dimension($3)) {
+			// 	printf("Los vectores deben tener la misma dimensión\n");
+			// 	tamano_diferente = true;
+			// } else {
+			// 	$$ = punto($1, $3);
+			// }
+			codigo(maquina_punto);
 		}
-	| '|' expresion '|' { $$ = norma($2); }
-	| NUMERO { $$ = $1; }
-	| '-' NUMERO %prec MENOSUNARIO { $$ = -$2; }
-	| '(' escalar ')' { $$ = $2; }
-	| FUNPREDEF '(' expresion ')' { $$ = (*($1->u.apuntador))($3); }
+	| '|' expresion '|' { /*$$ = norma($2);*/ codigo(maquina_norma); }
+	| ESCALAR { /*$$ = $1;*/ codigo(insertar_escalar); codigo($1); }
+	| '-' ESCALAR %prec MENOSUNARIO { /*$$ = -$2;*/
+			codigo(insertar_escalar); codigo($1); codigo(escalar_negativo);
+		}
+	| '(' escalar ')' { /*$$ = $2;*/ }
+	| FUNPREDEF '(' expresion ')' { /*$$ = (*($1->u.apuntador))($3);*/
+			codigo(insertar_predefinida); codigo($1->u.apuntador);
+		}
 	;
 
-vector: '[' componente ']' { $$ = crear_vector($2); }
+vector: '[' componente ']' { /*$$ = crear_vector($2);*/
+			codigo(maquina_crear_vector);
+		}
 	;
 
-componente:  NUMERO ',' componente { $$ = crear_componente($1, $3); }
-	| NUMERO { $$ = crear_componente($1, NULL); }
-	| '-' NUMERO %prec MENOSUNARIO { $$ = crear_componente(-$2, NULL); }
+componente:  ESCALAR ',' componente { /*$$ = crear_componente($1, $3);*/
+			codigo(insertar_escalar); codigo($1); codigo(maquina_crear_componente);
+		}
+	| ESCALAR { /*$$ = crear_componente($1, NULL);*/
+			codigo(insertar_escalar); codigo($1); codigo(maquina_crear_primer_componente);
+		}
+	| '-' ESCALAR %prec MENOSUNARIO { /*$$ = crear_componente(-$2, NULL);*/
+			codigo(insertar_escalar); codigo($2); codigo(escalar_negativo);
+		}
 	;
 
 %%
@@ -123,7 +147,9 @@ int main(int argc, char *argv[])
 	nombre_programa = argv[0];
 	inicializar();
 	setjmp(inicio);
-	yyparse();
+	
+	for (iniciar_codigo(); yyparse(); iniciar_codigo())
+		ejecutar(prog);
 
 	return 0;
 }
@@ -141,9 +167,11 @@ int yylex()
 		return 0;
 
 	if (c == '.' || isdigit(c)) {
+		int d;
 		ungetc(c, stdin);
-		scanf("%d", &yylval.escalar);
-		return NUMERO;
+		scanf("%d", &d);
+		yylval.simbolo = instalar("", ESCALAR, NULL, d);
+		return ESCALAR;
 	}
 
 	if (isalpha(c) && c != 'x') {

@@ -16,7 +16,7 @@ void inicializar()
     Simbolo *nuevo_simbolo = NULL;
 
     for (contador = 0; funciones_predefinidas[contador].nombre; contador++) {
-        nuevo_simbolo = instalar(funciones_predefinidas[contador].nombre, FUNPREDEF, NULL);
+        nuevo_simbolo = instalar(funciones_predefinidas[contador].nombre, FUNPREDEF, NULL, 0);
         nuevo_simbolo->u.apuntador = funciones_predefinidas[contador].funcion;
     }
 }

@@ -48,13 +48,14 @@ typedef struct Simbolo {
 	char *nombre;
 	short tipo;
 	union {
+		int escalar;
 		Vector *vector;
 		int (*apuntador)(Vector *);
 	} u;
 	struct Simbolo *siguiente;
 } Simbolo;
 
-Simbolo *instalar(char *, int, Vector *);
+Simbolo *instalar(char *, int, Vector *, int);
 Simbolo *buscar(char *);
 char *emalloc(unsigned);
 
