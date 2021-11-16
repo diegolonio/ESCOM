@@ -1,5 +1,5 @@
 # HIGH-ORDER CALCULATOR
-La High-Order Calculator (HOC) es la implementación de un lenguaje de programación interpretado utilizando ```bison``` y el lenguaje C, descrita en seis etapas en el libro *The Unix Programming Environment* (Kernighan y Pike, 1984) para ejemplificar el proceso de desarrollo de programas grandes.
+La High-Order Calculator (HOC) es la implementación de un lenguaje de programación interpretado utilizando ```yacc``` y el lenguaje C, descrita en seis etapas en el libro *The Unix Programming Environment* (Kernighan y Pike, 1984) para ejemplificar el proceso de desarrollo de programas grandes.
 
 Las seis etapas son:
 
@@ -10,7 +10,7 @@ Las seis etapas son:
     Variables cuyo nombre puede ser solo una letra de la *a* a la *z*. Se incluye el operador menos (-) unario y algunas defensas contra errores.
 
 - **HOC 3:**
-    Nombres de variables con cualquier cantidad de caracteres. Funciones predefinidas para el seno, coseno, la exponencial, etc., constantes útiles como $\pi$, y el operador de exponenciación.
+    Nombres de variables con cualquier cantidad de caracteres. Funciones predefinidas para el seno, coseno, la exponencial, etc., constantes útiles como PI, E, PHI, etc., y el operador de exponenciación.
 
 - **HOC 4:**
     Cambios en su funcionamiento interno: para cada sentencia se genera código que posteriormente es interpretado, en lugar de ser evaluado en tiempo real.
