@@ -1,4 +1,4 @@
-OBJS = vectores.tab.o vectores.o simbolo.o inicializacion.o
+OBJS = vectores.tab.o vectores.o simbolo.o inicializacion.o maquina.o
 
 vectores : $(OBJS)
 	@gcc $(OBJS) -o vectores -lm
@@ -21,6 +21,9 @@ simbolo.o : simbolo.c vectores.h vectores.tab.h
 
 inicializacion.o : inicializacion.c vectores.h vectores.tab.h
 	@gcc -c inicializacion.c -o inicializacion.o
+
+maquina.o : maquina.c vectores.h vectores.tab.h
+	@gcc -c maquina.c -o maquina.o
 
 .PHONY : all clean
 

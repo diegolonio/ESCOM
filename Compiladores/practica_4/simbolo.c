@@ -16,7 +16,7 @@ Simbolo *buscar(char *nombre)
     return 0; /* Símbolo no encontrado */
 }
 
-Simbolo *instalar(char *nombre, int tipo, Vector *vector)
+Simbolo *instalar(char *nombre, int tipo, Vector *vector, int escalar)
 {
     Simbolo *nuevo_simbolo;
     
@@ -25,6 +25,7 @@ Simbolo *instalar(char *nombre, int tipo, Vector *vector)
     strcpy(nuevo_simbolo->nombre, nombre);
     nuevo_simbolo->tipo = tipo;
     nuevo_simbolo->u.vector = vector;
+    nuevo_simbolo->u.escalar = escalar;
     nuevo_simbolo->siguiente = tabla_de_simbolos;
     tabla_de_simbolos = nuevo_simbolo;
 

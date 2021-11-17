@@ -6,23 +6,14 @@
 #include <setjmp.h>
 #include "vectores.h"
 
-bool tamano_diferente = false;
-
 %}
 
 %union {
-	// int escalar;
-	// Vector *vector;
-	// Componente *componente;
 	Instruccion *instruccion;
 	Simbolo *simbolo;
 }
 
-// %token <escalar> ESCALAR
 %token <simbolo> ESCALAR VARIABLE INDEFINIDO FUNPREDEF
-// %type <vector> asignacion expresion vector
-// %type <componente> componente
-// %type <escalar> escalar
 
 %right '='
 %left '+' '-'
@@ -33,107 +24,41 @@ bool tamano_diferente = false;
 
 lista: /* Epsilon */ { printf(">>> "); }
     | lista '\n' { printf(">>> "); } 
-	| lista asignacion '\n' { printf(">>> "); codigo(pop); codigo(STOP); return 1; }
-    | lista expresion '\n' {
-			// if (!tamano_diferente) {
-			// 	printf("\t"); mostrar_vector($2);
-			// } 
-			// tamano_diferente = false;
-			codigo(imprimir_vector); codigo(STOP); return 1;
-			printf(">>> ");
-		}
-    | lista escalar '\n' {
-			// if (!tamano_diferente)
-			// 	printf("\t%d\n", $2);
-			// tamano_diferente = false;
-			codigo(imprimir_escalar); codigo(STOP); return 1;
-			printf(">>> ");
-		}
+	| lista asignacion '\n' { printf(">>> "); /*codigo((Instruccion)pop);*/ codigo(STOP); return 1; }
+    | lista expresion '\n' { codigo(imprimir_vector); codigo(STOP); return 1; printf(">>> "); }
+    | lista escalar '\n' { codigo(imprimir_escalar); codigo(STOP); return 1; printf(">>> "); }
 	| lista error '\n' { yyerrok; printf(">>> "); }
     ;
 
-asignacion: VARIABLE '=' expresion { /*$$ = $1->u.vector = $3; $1->tipo = VARIABLE;*/
-			codigo(insertar_variable); codigo($1); codigo(asignacion); 
-		}
+asignacion: VARIABLE '=' expresion { codigo(insertar_variable); /*codigo((Instruccion)$1);*/ codigo(asignar); }
 	;
 
 expresion: vector { /*$$ = $1;*/ }
-	| '-' VARIABLE %prec MENOSUNARIO { /*$$ = ppescalar(-1, $2->u.vector);*/ 
-			codigo(insertar_variable); codigo($1); codigo(evaluar); codigo(vector_negativo);
-		}
-	| VARIABLE {
-			// if ($1->tipo == INDEFINIDO)
-			// 	ejecutar_error("variable indefinida", $1->nombre);
-			// $$ = $1->u.vector;
-			codigo(insertar_variable); codigo($1); codigo(evaluar);
-		}
+	| '-' VARIABLE %prec MENOSUNARIO { codigo(insertar_variable); /*codigo((Instruccion)$2);*/ codigo(evaluar); codigo(vector_negativo); }
+	| VARIABLE { codigo(insertar_variable); /*codigo((Instruccion)$1);*/ codigo(evaluar); }
 	| asignacion
-    | expresion '+' expresion {
-			// if (dimension($1) != dimension($3)) {
-			// 	printf("Los vectores deben tener la misma dimensión\n");
-			// 	tamano_diferente = true;
-			// } else {
-			// 	$$ = suma($1, $3);
-			// }
-			codigo(maquina_suma);
-		}
-    | expresion '-' expresion {
-			// if (dimension($1) != dimension($3)) {
-			// 	printf("Los vectores deben tener la misma dimensión\n");
-			// 	tamano_diferente = true;
-			// } else {
-			// 	$$ = resta($1, $3);
-			// }
-			codigo(maquina_resta);
-		}
-    | expresion 'x' expresion {
-			// if (dimension($1) != 3 || dimension($3) != 3) {
-			// 	printf("El producto cruz solo puede realizarse con vectores de dimensión 3\n");
-			// 	tamano_diferente = true;
-			// } else {
-			// 	$$ = cruz($1, $3);
-			// }
-			codigo(maquina_cruz);
-		}
-    | escalar '*' expresion { /*$$ = ppescalar($1, $3);*/ codigo(maquina_ppescalar); }
-    | expresion '*' escalar { /*$$ = ppescalar($3, $1);*/ codigo(maquina_ppescalar); }
-    | '(' expresion ')' { /*$$ = $2;*/ }
+    | expresion '+' expresion { codigo(maquina_suma); }
+    | expresion '-' expresion { codigo(maquina_resta); }
+    | expresion 'x' expresion { codigo(maquina_cruz); }
+    | escalar '*' expresion { codigo(maquina_ppescalar); }
+    | expresion '*' escalar { codigo(maquina_ppescalar); }
+    | '(' expresion ')'
     ;
 
-escalar:  expresion '*' expresion {
-			// if (dimension($1) != dimension($3)) {
-			// 	printf("Los vectores deben tener la misma dimensión\n");
-			// 	tamano_diferente = true;
-			// } else {
-			// 	$$ = punto($1, $3);
-			// }
-			codigo(maquina_punto);
-		}
-	| '|' expresion '|' { /*$$ = norma($2);*/ codigo(maquina_norma); }
-	| ESCALAR { /*$$ = $1;*/ codigo(insertar_escalar); codigo($1); }
-	| '-' ESCALAR %prec MENOSUNARIO { /*$$ = -$2;*/
-			codigo(insertar_escalar); codigo($1); codigo(escalar_negativo);
-		}
-	| '(' escalar ')' { /*$$ = $2;*/ }
-	| FUNPREDEF '(' expresion ')' { /*$$ = (*($1->u.apuntador))($3);*/
-			codigo(insertar_predefinida); codigo($1->u.apuntador);
-		}
+escalar:  expresion '*' expresion {codigo(maquina_punto); }
+	| '|' expresion '|' { codigo(maquina_norma); }
+	| ESCALAR { codigo(insertar_escalar); /*codigo((Instruccion)$1);*/ }
+	| '-' ESCALAR %prec MENOSUNARIO { codigo(insertar_escalar); /*codigo((Instruccion)$2);*/ codigo(escalar_negativo); }
+	| '(' escalar ')'
+	| FUNPREDEF '(' expresion ')' { codigo(insertar_predefinida); codigo((Instruccion)$1->u.apuntador); }
 	;
 
-vector: '[' componente ']' { /*$$ = crear_vector($2);*/
-			codigo(maquina_crear_vector);
-		}
+vector: '[' componente ']' { codigo(maquina_crear_vector); }
 	;
 
-componente:  ESCALAR ',' componente { /*$$ = crear_componente($1, $3);*/
-			codigo(insertar_escalar); codigo($1); codigo(maquina_crear_componente);
-		}
-	| ESCALAR { /*$$ = crear_componente($1, NULL);*/
-			codigo(insertar_escalar); codigo($1); codigo(maquina_crear_primer_componente);
-		}
-	| '-' ESCALAR %prec MENOSUNARIO { /*$$ = crear_componente(-$2, NULL);*/
-			codigo(insertar_escalar); codigo($2); codigo(escalar_negativo);
-		}
+componente:  ESCALAR ',' componente { codigo(insertar_escalar); /*codigo((Instruccion)$1);*/ codigo(maquina_crear_componente); }
+	| ESCALAR { codigo(insertar_escalar); /*codigo((Instruccion)$1);*/ codigo(maquina_crear_primer_componente); }
+	| '-' ESCALAR %prec MENOSUNARIO { codigo(insertar_escalar); /*codigo((Instruccion)$2);*/ codigo(escalar_negativo); }
 	;
 
 %%
@@ -149,7 +74,7 @@ int main(int argc, char *argv[])
 	setjmp(inicio);
 	
 	for (iniciar_codigo(); yyparse(); iniciar_codigo())
-		ejecutar(prog);
+		ejecutar_instruccion(programa);
 
 	return 0;
 }
@@ -186,7 +111,7 @@ int yylex()
 		*nombre = '\0';
 
 		if ((nuevo_simbolo = buscar(sbuf)) == 0)
-			nuevo_simbolo = instalar(sbuf, INDEFINIDO, NULL);
+			nuevo_simbolo = instalar(sbuf, INDEFINIDO, NULL, 0);
 
 		yylval.simbolo = nuevo_simbolo;
 
