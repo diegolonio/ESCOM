@@ -35,9 +35,9 @@ Instruccion *codigo(Instruccion nueva_instruccion) /* Insertar una nueva instruc
     return ocima_programa;
 }
 
-void ejecutar_instruccion(Instruccion *instruccion) /* Ejecutar una instrucción de la máquina */
+void ejecutar(Instruccion *instruccion) /* Ejecutar una instrucción de la máquina */
 {
-    for (contador_programa = instruccion; *contador_programa != STOP; )
+    for (contador_programa = instruccion; *contador_programa != PARO; )
             (*(*contador_programa++))();
 }
 
@@ -63,90 +63,201 @@ void push(Datum nuevo_elemento) /* Insertar un elemento en la cima de la pila de
 
 void imprimir_vector()
 {
-    printf("Imprimir vector\n");
+    Datum elemento;
+
+    elemento = pop();
+    printf("\t");
+    mostrar_vector(elemento.vector);
 }
 
 void imprimir_escalar()
 {
-    printf("Imprimir escalar\n");
+    Datum elemento;
+
+    elemento = pop();
+    printf("\t%d\n", elemento.escalar);
 }
 
 void insertar_variable()
 {
-    printf("Insertar variable\n");
+    Datum elemento;
+
+    elemento.simbolo = (Simbolo *)(*contador_programa++);
+    push(elemento);
 }
 
 void insertar_escalar()
 {
-    printf("Insertar escalar\n");
+    Datum elemento;
+
+    elemento.escalar = ((Simbolo *)*contador_programa++)->u.escalar;
+    push(elemento);
 }
 
-void insertar_predefinida()
+void ejecutar_predefinida()
 {
-    printf("Insertar función predefinida\n");
+    Datum elemento;
+
+    elemento = pop();
+    elemento.escalar = (*(int (*)())(*contador_programa++))(elemento.vector);
+    push(elemento);
 }
 
 void asignar()
 {
-    printf("Asignar\n");
+    Datum variable, expresion;
+
+    variable = pop();
+    expresion = pop();
+
+    if (variable.simbolo->tipo != VARIABLE && variable.simbolo->tipo != INDEFINIDO)
+        ejecutar_error("asignación a no variable", variable.simbolo->nombre);
+
+    variable.simbolo->u.vector = expresion.vector;
+    variable.simbolo->tipo = VARIABLE;
+    push(variable);
 }
 
 void evaluar()
 {
-    printf("Evaluar\n");
+    Datum variable;
+
+    variable = pop();
+
+    if (variable.simbolo->tipo == INDEFINIDO)
+        ejecutar_error("variable no definida", variable.simbolo->nombre);
+
+    variable.vector = variable.simbolo->u.vector;
+    push(variable);
 }
 
 void vector_negativo()
 {
-    printf("Vector negativo\n");
+    Datum elemento;
+
+    elemento = pop();
+    elemento.vector = ppescalar(-1, elemento.vector);
+    push(elemento);
 }
 
 void escalar_negativo()
 {
-    printf("Escalar negativo\n");
+    Datum elemento;
+
+    elemento = pop();
+    elemento.escalar = -1 * elemento.escalar;
+    push(elemento);
 }
 
 void maquina_suma()
 {
-    printf("Suma\n");
+    Datum elemento1, elemento2;
+
+    elemento2 = pop();
+    elemento1 = pop();
+
+    if (dimension(elemento1.vector) != dimension(elemento2.vector))
+        ejecutar_error("vectores de tamaño diferente", (char *)0);
+
+    elemento1.vector = suma(elemento1.vector, elemento2.vector);
+    push(elemento1);
 }
 
 void maquina_resta()
 {
-    printf("Resta\n");
+    Datum elemento1, elemento2;
+
+    elemento2 = pop();
+    elemento1 = pop();
+
+    if (dimension(elemento1.vector) != dimension(elemento2.vector))
+        ejecutar_error("vectores de tamaño diferente", (char *)0);
+
+    elemento1.vector = resta(elemento1.vector, elemento2.vector);
+    push(elemento1);
 }
 
 void maquina_punto()
 {
-    printf("Producto punto\n");
+    Datum elemento1, elemento2;
+
+    elemento2 = pop();
+    elemento1 = pop();
+
+    if (dimension(elemento1.vector) != dimension(elemento2.vector))
+        ejecutar_error("vectores de tamaño diferente", (char *)0);
+
+    elemento1.escalar = punto(elemento1.vector, elemento2.vector);
+    push(elemento1);
 }
 
 void maquina_cruz()
 {
-    printf("Producto cruz\n");
+    Datum elemento1, elemento2;
+
+    elemento2 = pop();
+    elemento1 = pop();
+
+    if (dimension(elemento1.vector) != 3 || dimension(elemento2.vector) != 3)
+        ejecutar_error("vectores de dimensión distinta a 3", (char *)0);
+
+    elemento1.vector = cruz(elemento1.vector, elemento2.vector);
+    push(elemento1);
 }
 
-void maquina_ppescalar()
+void maquina_ppescalar_escexp()
 {
-    printf("Producto por escalar\n");
+    Datum elemento1, elemento2;
+
+    elemento2 = pop();
+    elemento1 = pop();
+    elemento2.vector = ppescalar(elemento1.escalar, elemento2.vector);
+    push(elemento2);
+}
+
+void maquina_ppescalar_expesc()
+{
+    Datum elemento1, elemento2;
+
+    elemento2 = pop();
+    elemento1 = pop();
+    elemento1.vector = ppescalar(elemento2.escalar, elemento1.vector);
+    push(elemento1);
 }
 
 void maquina_norma()
 {
-    printf("Norma\n");
+    Datum elemento;
+
+    elemento = pop();
+    elemento.escalar = norma(elemento.vector);
+    push(elemento);
 }
 
 void maquina_crear_vector()
 {
-    printf("Crear vector\n");
+    Datum elemento;
+
+    elemento = pop();
+    elemento.vector = crear_vector(elemento.componente);
+    push(elemento);
 }
 
 void maquina_crear_componente()
 {
-    printf("Crear componente\n");
+    Datum elemento1, elemento2;
+
+    elemento2 = pop();
+    elemento1 = pop();
+    elemento2.componente = crear_componente(elemento2.escalar, elemento1.componente);
+    push(elemento2);
 }
 
 void maquina_crear_primer_componente()
 {
-    printf("Crear primer componente\n");
+    Datum elemento;
+
+    elemento = pop();
+    elemento.componente = crear_componente(elemento.escalar, NULL);
+    push(elemento);
 }

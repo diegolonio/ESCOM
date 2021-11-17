@@ -62,45 +62,48 @@ char *emalloc(unsigned);
 /* --------------------------------- Máquina de pila --------------------------------- */
 
 typedef union Datum { /* Tipo de dato de la pila del interprete */
-	Componente *Componente; /* Componente */
+	int escalar;
+	Vector *vector;
+	Componente *componente; /* Componente */
 	Simbolo *simbolo; /* Variable, Vector, Escalar, Función predefinida */
 } Datum;
 
 typedef void (*Instruccion)(); /* Tipo de dato: instrucción de máquina */
-#define STOP (Instruccion)0
+#define PARO (Instruccion)0
 
 extern Instruccion programa[];
 
 /* ---------------------------- Funciones sobre la máquina ---------------------------- */
 
-extern void iniciar_codigo();
-extern Instruccion *codigo(Instruccion);
-extern void ejecutar_instruccion(Instruccion *);
+void iniciar_codigo();
+Instruccion *codigo(Instruccion);
+void ejecutar(Instruccion *);
 
 /* ---------------------- Funciones sobre la pila del intérprete ---------------------- */
 
-extern Datum pop();
-extern void push(Datum);
+Datum pop();
+void push(Datum);
 
 /* --------------------------- Instrucciones de la máquina --------------------------- */
 
-extern void imprimir_vector();
-extern void imprimir_escalar();
-extern void insertar_variable();
-extern void insertar_escalar();
-extern void insertar_predefinida();
-extern void asignar();
-extern void evaluar();
-extern void vector_negativo();
-extern void escalar_negativo();
-extern void maquina_suma();
-extern void maquina_resta();
-extern void maquina_punto();
-extern void maquina_cruz();
-extern void maquina_ppescalar();
-extern void maquina_norma();
-extern void maquina_crear_vector();
-extern void maquina_crear_componente();
-extern void maquina_crear_primer_componente();
+void imprimir_vector();
+void imprimir_escalar();
+void insertar_variable();
+void insertar_escalar();
+void ejecutar_predefinida();
+void asignar();
+void evaluar();
+void vector_negativo();
+void escalar_negativo();
+void maquina_suma();
+void maquina_resta();
+void maquina_punto();
+void maquina_cruz();
+void maquina_ppescalar_escexp();
+void maquina_ppescalar_expesc();
+void maquina_norma();
+void maquina_crear_vector();
+void maquina_crear_componente();
+void maquina_crear_primer_componente();
 
 #endif /* _VECTORES_H_ */

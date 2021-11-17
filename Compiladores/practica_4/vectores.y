@@ -22,43 +22,115 @@
 
 %%
 
-lista: /* Epsilon */ { printf(">>> "); }
-    | lista '\n' { printf(">>> "); } 
-	| lista asignacion '\n' { printf(">>> "); /*codigo((Instruccion)pop);*/ codigo(STOP); return 1; }
-    | lista expresion '\n' { codigo(imprimir_vector); codigo(STOP); return 1; printf(">>> "); }
-    | lista escalar '\n' { codigo(imprimir_escalar); codigo(STOP); return 1; printf(">>> "); }
-	| lista error '\n' { yyerrok; printf(">>> "); }
+lista: /* Epsilon */ {
+			printf(">>> ");
+		}
+    | lista '\n' {
+			printf(">>> ");
+		} 
+	| lista asignacion '\n' {
+			codigo((Instruccion)pop);
+			codigo(PARO);
+			return 1;
+		}
+    | lista expresion '\n' {
+			codigo(imprimir_vector);
+			codigo(PARO);
+			return 1;
+			printf(">>> ");
+		}
+    | lista escalar '\n' {
+			codigo(imprimir_escalar);
+			codigo(PARO);
+			return 1;
+			printf(">>> ");
+		}
+	| lista error '\n' {
+			yyerrok;
+			printf(">>> ");
+		}
     ;
 
-asignacion: VARIABLE '=' expresion { codigo(insertar_variable); /*codigo((Instruccion)$1);*/ codigo(asignar); }
+asignacion: VARIABLE '=' expresion {
+			codigo(insertar_variable);
+			codigo((Instruccion)$1);
+			codigo(asignar);
+		}
 	;
 
-expresion: vector { /*$$ = $1;*/ }
-	| '-' VARIABLE %prec MENOSUNARIO { codigo(insertar_variable); /*codigo((Instruccion)$2);*/ codigo(evaluar); codigo(vector_negativo); }
-	| VARIABLE { codigo(insertar_variable); /*codigo((Instruccion)$1);*/ codigo(evaluar); }
+expresion: vector
+	| '-' VARIABLE %prec MENOSUNARIO {
+			codigo(insertar_variable);
+			codigo((Instruccion)$2);
+			codigo(evaluar);
+			codigo(vector_negativo);
+		}
+	| VARIABLE {
+			codigo(insertar_variable);
+			codigo((Instruccion)$1);
+			codigo(evaluar);
+		}
 	| asignacion
-    | expresion '+' expresion { codigo(maquina_suma); }
-    | expresion '-' expresion { codigo(maquina_resta); }
-    | expresion 'x' expresion { codigo(maquina_cruz); }
-    | escalar '*' expresion { codigo(maquina_ppescalar); }
-    | expresion '*' escalar { codigo(maquina_ppescalar); }
+    | expresion '+' expresion {
+			codigo(maquina_suma);
+		}
+    | expresion '-' expresion {
+			codigo(maquina_resta);
+		}
+    | expresion 'x' expresion {
+			codigo(maquina_cruz);
+		}
+    | escalar '*' expresion {
+			codigo(maquina_ppescalar_escexp);
+		}
+    | expresion '*' escalar {
+			codigo(maquina_ppescalar_expesc);
+		}
     | '(' expresion ')'
     ;
 
-escalar:  expresion '*' expresion {codigo(maquina_punto); }
-	| '|' expresion '|' { codigo(maquina_norma); }
-	| ESCALAR { codigo(insertar_escalar); /*codigo((Instruccion)$1);*/ }
-	| '-' ESCALAR %prec MENOSUNARIO { codigo(insertar_escalar); /*codigo((Instruccion)$2);*/ codigo(escalar_negativo); }
+escalar:  expresion '*' expresion {
+			codigo(maquina_punto);
+		}
+	| '|' expresion '|' {
+			codigo(maquina_norma);
+		}
+	| ESCALAR {
+			codigo(insertar_escalar);
+			codigo((Instruccion)$1);
+		}
+	| '-' ESCALAR %prec MENOSUNARIO {
+			codigo(insertar_escalar);
+			codigo((Instruccion)$2);
+			codigo(escalar_negativo);
+		}
 	| '(' escalar ')'
-	| FUNPREDEF '(' expresion ')' { codigo(insertar_predefinida); codigo((Instruccion)$1->u.apuntador); }
+	| FUNPREDEF '(' expresion ')' {
+			codigo(ejecutar_predefinida);
+			codigo((Instruccion)$1->u.apuntador);
+		}
 	;
 
-vector: '[' componente ']' { codigo(maquina_crear_vector); }
+vector: '[' componente ']' {
+			codigo(maquina_crear_vector);
+		}
 	;
 
-componente:  ESCALAR ',' componente { codigo(insertar_escalar); /*codigo((Instruccion)$1);*/ codigo(maquina_crear_componente); }
-	| ESCALAR { codigo(insertar_escalar); /*codigo((Instruccion)$1);*/ codigo(maquina_crear_primer_componente); }
-	| '-' ESCALAR %prec MENOSUNARIO { codigo(insertar_escalar); /*codigo((Instruccion)$2);*/ codigo(escalar_negativo); }
+componente:  ESCALAR ',' componente {
+			codigo(insertar_escalar);
+			codigo((Instruccion)$1);
+			codigo(maquina_crear_componente);
+		}
+	| ESCALAR {
+			codigo(insertar_escalar);
+			codigo((Instruccion)$1);
+			codigo(maquina_crear_primer_componente);
+		}
+	| '-' ESCALAR %prec MENOSUNARIO {
+			codigo(insertar_escalar);
+			codigo((Instruccion)$2);
+			codigo(escalar_negativo);
+		}
 	;
 
 %%
@@ -74,7 +146,7 @@ int main(int argc, char *argv[])
 	setjmp(inicio);
 	
 	for (iniciar_codigo(); yyparse(); iniciar_codigo())
-		ejecutar_instruccion(programa);
+		ejecutar(programa);
 
 	return 0;
 }
