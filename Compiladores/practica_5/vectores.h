@@ -118,5 +118,6 @@ void vectores_no_iguales();
 void escalares_iguales();
 void escalares_no_iguales();
 void negacion();
+void si();
 
 #endif /* _VECTORES_H_ */

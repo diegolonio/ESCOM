@@ -54,7 +54,7 @@ Datum pop() /* Sacar el elemento de la cima de la pila del interprete */
 void push(Datum nuevo_elemento) /* Insertar un elemento en la cima de la pila del intérprete */
 {
     if (cima_pila >= &pila[TAMPILA])
-        ejecutar_error("tamaño mínimo de pila excedido", (char *)0);
+        ejecutar_error("tamaño de pila excedido", (char *)0);
 
     *cima_pila++ = nuevo_elemento;
 }
@@ -369,4 +369,20 @@ void negacion()
     elemento = pop();
     elemento.escalar = (int)(elemento.escalar == 0);
     push(elemento);
+}
+
+void si()
+{
+    Datum elemento;
+    Instruccion *guardar_contador_programa = contador_programa; /* Cuerpo del condicional */
+
+    ejecutar(guardar_contador_programa+3); /* Evalución de la condición */
+    elemento = pop();
+
+    if (elemento.escalar)
+        ejecutar(*((Instruccion **)(guardar_contador_programa)));
+    else if (*((Instruccion **)(guardar_contador_programa+1)))
+        ejecutar(*((Instruccion **)(guardar_contador_programa+1))); /* Si la condición no se cumplió */
+
+    contador_programa = *((Instruccion **)(guardar_contador_programa+2)); /* Siguiente instrucción después la secuencia de instrucciones del condicional */
 }

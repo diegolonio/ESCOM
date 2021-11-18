@@ -40,7 +40,6 @@ lista: /* Epsilon */ {
 			return 1;
 		}
 	| lista sentencia '\n' {
-			codigo((Instruccion)pop);
 			codigo(PARO);
 			return 1;
 			printf(">>> ");
@@ -52,6 +51,7 @@ lista: /* Epsilon */ {
     ;
 
 asignacion: VARIABLE '=' expresion {
+			$$ = $3;
 			codigo(insertar_variable);
 			codigo((Instruccion)$1);
 			codigo(asignar);
@@ -61,12 +61,12 @@ asignacion: VARIABLE '=' expresion {
 expresion: asignacion
 	| vector
 	| VARIABLE {
-			codigo(insertar_variable);
+			$$ = codigo(insertar_variable);
 			codigo((Instruccion)$1);
 			codigo(evaluar);
 		}
 	| '-' VARIABLE %prec MENOSUNARIO {
-			codigo(insertar_variable);
+			$$ = codigo(insertar_variable);
 			codigo((Instruccion)$2);
 			codigo(evaluar);
 			codigo(vector_negativo);
@@ -125,14 +125,15 @@ escalar:  expresion '*' expresion {
 			codigo(escalares_no_iguales);
 		}
 	| NO escalar {
+			$$ = $2;
 			codigo(negacion);
 		}
 	| ESCALAR {
-			codigo(insertar_escalar);
+			$$ = codigo(insertar_escalar);
 			codigo((Instruccion)$1);
 		}
 	| '-' ESCALAR %prec MENOSUNARIO {
-			codigo(insertar_escalar);
+			$$ = codigo(insertar_escalar);
 			codigo((Instruccion)$2);
 			codigo(escalar_negativo);
 		}
@@ -140,6 +141,7 @@ escalar:  expresion '*' expresion {
 			$$ = $2;
 		}
 	| FUNPREDEF '(' expresion ')' {
+			$$ = $3;
 			codigo(ejecutar_predefinida);
 			codigo((Instruccion)$1->u.apuntador);
 		}
@@ -167,28 +169,36 @@ componente:  ESCALAR ',' componente {
 		}
 	;
 
-sentencia: expresion
-	| escalar
+sentencia: expresion {
+			codigo((Instruccion)pop);
+		}
+	| escalar {
+			codigo((Instruccion)pop);
+		}
 	| IMPRIMIR expresion {
 			codigo(imprimir_vector);
 			codigo(PARO);
+			$$ = $2;
 		}
 	| IMPRIMIR escalar {
 			codigo(imprimir_escalar);
 			codigo(PARO);
+			$$ = $2;
 		}
 	| mientras condicion sentencia fin {
 			printf("Mientras\n");
 		}
 	| si condicion sentencia fin {
-			printf("Condicional sin else\n");
+			($1)[1] = (Instruccion)$3; /* Cuerpo del condicional */
+			($1)[3] = (Instruccion)$4; /* Fin del condicional */
 		}
-	| si condicion sentencia fin SINO condicion fin {
-			printf("Condicional con else\n");
+	| si condicion sentencia fin SINO sentencia fin {
+			($1)[1] = (Instruccion)$3; /* Cuerpo del condicional */
+			($1)[2] = (Instruccion)$6; /* Si la primera condición no se cumple */
+			($1)[3] = (Instruccion)$7; /* Fin del condicional */
 		}
 	| '{' sentencias '}' {
 			$$ = $2;
-			printf("Sentencias\n");
 		}
 	;
 
@@ -198,24 +208,31 @@ mientras: MIENTRAS {
 	;
 
 si: SI {
-			printf("Si\n");
+			$$ = codigo(si);
+			codigo(PARO);
+			codigo(PARO);
+			codigo(PARO);
 		}
 	;
 
 condicion: '(' escalar ')' {
-			printf("Condicion\n");
+			codigo(PARO);
+			$$ = $2;
 		}
 	;
 
 sentencias: /* Epsilon */ {
-			printf("Epsilon\n");
+			$$ = cima_programa;
 		}
-	| sentencias '\n'
+	| sentencias '\n' {
+			printf(">>> ");
+		}
 	| sentencias sentencia
 	;
 
 fin: /* Epsilon */ {
-			printf("Fin\n");
+			codigo(PARO);
+			$$ = cima_programa;
 		}
 	;
 
