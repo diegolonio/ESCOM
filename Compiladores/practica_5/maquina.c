@@ -386,3 +386,20 @@ void si()
 
     contador_programa = *((Instruccion **)(guardar_contador_programa+2)); /* Siguiente instrucción después la secuencia de instrucciones del condicional */
 }
+
+void mientras()
+{
+    Datum elemento;
+    Instruccion *guardar_contador_programa = contador_programa; /* Cuerpo del ciclo */
+
+    ejecutar(guardar_contador_programa+2); /* Evaluación de la condición */
+    elemento = pop();
+
+    while (elemento.escalar) {
+        ejecutar(*((Instruccion **)(guardar_contador_programa))); /* Cuerpo del ciclo */
+        ejecutar(guardar_contador_programa+2); /* Evaluación de la condición */
+        elemento = pop();
+    }
+
+    contador_programa = *((Instruccion **)(guardar_contador_programa+1)); /* Siguiente instrucción después de la secuencia de instrucciones del ciclo */
+}

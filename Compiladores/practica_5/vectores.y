@@ -148,7 +148,7 @@ escalar:  expresion '*' expresion {
 	;
 
 vector: '[' componente ']' {
-			codigo(maquina_crear_vector);
+			$$ = codigo(maquina_crear_vector);
 		}
 	;
 
@@ -156,14 +156,15 @@ componente:  ESCALAR ',' componente {
 			codigo(insertar_escalar);
 			codigo((Instruccion)$1);
 			codigo(maquina_crear_componente);
+			$$ = $3;
 		}
 	| ESCALAR {
-			codigo(insertar_escalar);
+			$$ = codigo(insertar_escalar);
 			codigo((Instruccion)$1);
 			codigo(maquina_crear_primer_componente);
 		}
 	| '-' ESCALAR %prec MENOSUNARIO {
-			codigo(insertar_escalar);
+			$$ = codigo(insertar_escalar);
 			codigo((Instruccion)$2);
 			codigo(escalar_negativo);
 		}
@@ -177,16 +178,15 @@ sentencia: expresion {
 		}
 	| IMPRIMIR expresion {
 			codigo(imprimir_vector);
-			codigo(PARO);
 			$$ = $2;
 		}
 	| IMPRIMIR escalar {
 			codigo(imprimir_escalar);
-			codigo(PARO);
 			$$ = $2;
 		}
 	| mientras condicion sentencia fin {
-			printf("Mientras\n");
+			($1)[1] = (Instruccion)$3; /* Cuerpo del ciclo */
+			($1)[2] = (Instruccion)$4; /* Fin del ciclo */
 		}
 	| si condicion sentencia fin {
 			($1)[1] = (Instruccion)$3; /* Cuerpo del condicional */
@@ -203,7 +203,9 @@ sentencia: expresion {
 	;
 
 mientras: MIENTRAS {
-			printf("Mientras\n");
+			$$ = codigo(mientras);
+			codigo(PARO);
+			codigo(PARO);
 		}
 	;
 
