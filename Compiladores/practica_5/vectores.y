@@ -14,11 +14,17 @@
 }
 
 %token <simbolo> ESCALAR VARIABLE INDEFINIDO FUNPREDEF
+%token <simbolo> IMPRIMIR MIENTRAS SI SINO
+%type <instruccion> sentencia
+%type <instruccion> asignacion expresion escalar vector componente
 
 %right '='
+%left O
+%left Y
+%left MAYQUE MAYIGU MENQUE MENIGU IGUAL NOIGUAL
 %left '+' '-'
 %left 'x' '*'
-%left MENOSUNARIO
+%left MENOSUNARIO NO
 
 %%
 
@@ -33,14 +39,7 @@ lista: /* Epsilon */ {
 			codigo(PARO);
 			return 1;
 		}
-    | lista expresion '\n' {
-			codigo(imprimir_vector);
-			codigo(PARO);
-			return 1;
-			printf(">>> ");
-		}
-    | lista escalar '\n' {
-			codigo(imprimir_escalar);
+	| lista sentencia '\n' {
 			codigo(PARO);
 			return 1;
 			printf(">>> ");
@@ -58,19 +57,22 @@ asignacion: VARIABLE '=' expresion {
 		}
 	;
 
-expresion: vector
+expresion: asignacion
+	| vector
+	| VARIABLE {
+			codigo(insertar_variable);
+			codigo((Instruccion)$1);
+			codigo(evaluar);
+		}
 	| '-' VARIABLE %prec MENOSUNARIO {
 			codigo(insertar_variable);
 			codigo((Instruccion)$2);
 			codigo(evaluar);
 			codigo(vector_negativo);
 		}
-	| VARIABLE {
-			codigo(insertar_variable);
-			codigo((Instruccion)$1);
-			codigo(evaluar);
+	| '(' expresion ')' {
+			$$ = $2;
 		}
-	| asignacion
     | expresion '+' expresion {
 			codigo(maquina_suma);
 		}
@@ -86,14 +88,43 @@ expresion: vector
     | expresion '*' escalar {
 			codigo(maquina_ppescalar_expesc);
 		}
-    | '(' expresion ')'
     ;
 
 escalar:  expresion '*' expresion {
 			codigo(maquina_punto);
 		}
-	| '|' expresion '|' {
-			codigo(maquina_norma);
+	| expresion IGUAL expresion {
+			codigo(vectores_iguales);
+		}
+	| expresion NOIGUAL expresion {
+			codigo(vectores_no_iguales);
+		}
+	| escalar MAYQUE escalar {
+			codigo(mayor_que);
+		}
+	| escalar MAYIGU escalar {
+			codigo(mayor_igual);
+		}
+	| escalar MENQUE escalar {
+			codigo(menor_que);
+		}
+	| escalar MENIGU escalar {
+			codigo(menor_igual);
+		}
+	| escalar O escalar {
+			codigo(o_logico);
+		}
+	| escalar Y escalar {
+			codigo(y_logico);
+		}
+	| escalar IGUAL escalar {
+			codigo(escalares_iguales);
+		}
+	| escalar NOIGUAL escalar {
+			codigo(escalares_no_iguales);
+		}
+	| NO escalar {
+			codigo(negacion);
 		}
 	| ESCALAR {
 			codigo(insertar_escalar);
@@ -104,7 +135,9 @@ escalar:  expresion '*' expresion {
 			codigo((Instruccion)$2);
 			codigo(escalar_negativo);
 		}
-	| '(' escalar ')'
+	| '(' escalar ')' {
+			$$ = $2;
+		}
 	| FUNPREDEF '(' expresion ')' {
 			codigo(ejecutar_predefinida);
 			codigo((Instruccion)$1->u.apuntador);
@@ -130,6 +163,26 @@ componente:  ESCALAR ',' componente {
 			codigo(insertar_escalar);
 			codigo((Instruccion)$2);
 			codigo(escalar_negativo);
+		}
+	;
+
+sentencia: expresion {
+			codigo((Instruccion)pop);
+		}
+	| escalar {
+			codigo((Instruccion)pop);
+		}
+	| IMPRIMIR expresion {
+			codigo(imprimir_vector);
+			codigo(PARO);
+			return 1;
+			printf(">>> ");
+		}
+	| IMPRIMIR escalar {
+			codigo(imprimir_escalar);
+			codigo(PARO);
+			return 1;
+			printf(">>> ");
 		}
 	;
 
@@ -190,10 +243,31 @@ int yylex()
 		return nuevo_simbolo->tipo == INDEFINIDO ? VARIABLE : nuevo_simbolo->tipo;
 	}
 
-	if (c == '\n')
-		numero_linea++;
-
-	return c;
+	switch (c) {
+		case '>':
+			return siguiente('=', MAYIGU, MAYQUE);
+			break;
+		case '<':
+			return siguiente('=', MENIGU, MENQUE);
+			break;
+		case '=':
+			return siguiente('=', IGUAL, '=');
+			break;
+		case '!':
+			return siguiente('=', NOIGUAL, NO);
+			break;
+		case '|':
+			return siguiente('|', O, '|');
+			break;
+		case '&':
+			return siguiente('&', Y, '&');
+			break;
+		case '\n':
+			numero_linea++;
+			return '\n';
+		default:
+			return c;
+	}
 }
 
 void yyerror(char *s)
@@ -215,4 +289,16 @@ void ejecutar_error(char *s, char *t)
 {
 	advertencia(s, t);
 	longjmp(inicio, 0);
+}
+
+int siguiente(int caracter_esperado, int si_es, int no_es)
+{
+	int c = getchar();
+
+	if (c == caracter_esperado)
+		return si_es;
+
+	ungetc(c, stdin);
+	
+	return no_es;
 }

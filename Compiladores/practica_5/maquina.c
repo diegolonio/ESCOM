@@ -46,7 +46,7 @@ void ejecutar(Instruccion *instruccion) /* Ejecutar una instrucción de la máqu
 Datum pop() /* Sacar el elemento de la cima de la pila del interprete */
 {
     if (cima_pila <= pila)
-        ejecutar_error("tamaño máximo de pila excedido", (char *)0);
+        ejecutar_error("no hay más elementos en la pila", (char *)0);
 
     return *--cima_pila;
 }
@@ -259,5 +259,114 @@ void maquina_crear_primer_componente()
 
     elemento = pop();
     elemento.componente = crear_componente(elemento.escalar, NULL);
+    push(elemento);
+}
+
+void o_logico()
+{
+    Datum elemento1, elemento2;
+
+    elemento2 = pop();
+    elemento1 = pop();
+    elemento1.escalar = (int)(elemento1.escalar != 0 || elemento2.escalar != 0);
+    push(elemento1);
+}
+
+void y_logico()
+{
+    Datum elemento1, elemento2;
+
+    elemento2 = pop();
+    elemento1 = pop();
+    elemento1.escalar = (int)(elemento1.escalar != 0 && elemento2.escalar != 0);
+    push(elemento1);
+}
+
+void mayor_que()
+{
+    Datum elemento1, elemento2;
+
+    elemento2 = pop();
+    elemento1 = pop();
+    elemento1.escalar = (int)(elemento1.escalar > elemento2.escalar);
+    push(elemento1);
+}
+
+void mayor_igual()
+{
+    Datum elemento1, elemento2;
+
+    elemento2 = pop();
+    elemento1 = pop();
+    elemento1.escalar = (int)(elemento1.escalar >= elemento2.escalar);
+    push(elemento1);
+}
+
+void menor_que()
+{
+    Datum elemento1, elemento2;
+
+    elemento2 = pop();
+    elemento1 = pop();
+    elemento1.escalar = (int)(elemento1.escalar < elemento2.escalar);
+    push(elemento1);
+}
+
+void menor_igual()
+{
+    Datum elemento1, elemento2;
+
+    elemento2 = pop();
+    elemento1 = pop();
+    elemento1.escalar = (int)(elemento1.escalar <= elemento2.escalar);
+    push(elemento1);
+}
+
+void vectores_iguales()
+{
+    Datum elemento1, elemento2;
+
+    elemento2 = pop();
+    elemento1 = pop();
+    elemento1.escalar = (int)son_iguales(elemento1.vector, elemento2.vector);
+    push(elemento1);
+}
+
+void vectores_no_iguales()
+{
+    Datum elemento1, elemento2;
+
+    elemento2 = pop();
+    elemento1 = pop();
+    elemento1.escalar = (int)(!son_iguales(elemento1.vector, elemento2.vector));
+    push(elemento1);
+}
+
+void escalares_iguales()
+{
+    Datum elemento1, elemento2;
+
+    elemento2 = pop();
+    elemento1 = pop();
+    elemento1.escalar = (int)(elemento1.escalar == elemento2.escalar);
+    push(elemento1);
+}
+
+void escalares_no_iguales()
+{
+    Datum elemento1, elemento2;
+
+    elemento2 = pop();
+    elemento1 = pop();
+    elemento1.escalar = (int)(elemento1.escalar != elemento2.escalar);
+    push(elemento1);
+}
+
+void negacion()
+{
+    Datum elemento;
+
+    elemento = pop();
+    elemento.escalar = (int)(elemento.escalar == 0);
     push(elemento);
 }

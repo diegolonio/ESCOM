@@ -41,6 +41,7 @@ int yylex();
 void advertencia(char *s, char *t);
 void ejecutar_error(char *, char *);
 void inicializar();
+int siguiente(int, int, int);
 
 /* -------------------------------- Tabla de símbolos -------------------------------- */
 
@@ -72,6 +73,7 @@ typedef void (*Instruccion)(); /* Tipo de dato: instrucción de máquina */
 #define PARO (Instruccion)0
 
 extern Instruccion programa[];
+extern Instruccion *cima_programa; /* Siguiente espacio disponible para la generación de código */
 
 /* ---------------------------- Funciones sobre la máquina ---------------------------- */
 
@@ -105,5 +107,16 @@ void maquina_norma();
 void maquina_crear_vector();
 void maquina_crear_componente();
 void maquina_crear_primer_componente();
+void o_logico();
+void y_logico();
+void mayor_que();
+void mayor_igual();
+void menor_que();
+void menor_igual();
+void vectores_iguales();
+void vectores_no_iguales();
+void escalares_iguales();
+void escalares_no_iguales();
+void negacion();
 
 #endif /* _VECTORES_H_ */
