@@ -15,7 +15,7 @@
 
 %token <simbolo> ESCALAR VARIABLE INDEFINIDO FUNPREDEF
 %token <simbolo> IMPRIMIR MIENTRAS SI SINO
-%type <instruccion> sentencia
+%type <instruccion> sentencia sentencias condicion mientras si fin
 %type <instruccion> asignacion expresion escalar vector componente
 
 %right '='
@@ -40,6 +40,7 @@ lista: /* Epsilon */ {
 			return 1;
 		}
 	| lista sentencia '\n' {
+			codigo((Instruccion)pop);
 			codigo(PARO);
 			return 1;
 			printf(">>> ");
@@ -166,23 +167,55 @@ componente:  ESCALAR ',' componente {
 		}
 	;
 
-sentencia: expresion {
-			codigo((Instruccion)pop);
-		}
-	| escalar {
-			codigo((Instruccion)pop);
-		}
+sentencia: expresion
+	| escalar
 	| IMPRIMIR expresion {
 			codigo(imprimir_vector);
 			codigo(PARO);
-			return 1;
-			printf(">>> ");
 		}
 	| IMPRIMIR escalar {
 			codigo(imprimir_escalar);
 			codigo(PARO);
-			return 1;
-			printf(">>> ");
+		}
+	| mientras condicion sentencia fin {
+			printf("Mientras\n");
+		}
+	| si condicion sentencia fin {
+			printf("Condicional sin else\n");
+		}
+	| si condicion sentencia fin SINO condicion fin {
+			printf("Condicional con else\n");
+		}
+	| '{' sentencias '}' {
+			$$ = $2;
+			printf("Sentencias\n");
+		}
+	;
+
+mientras: MIENTRAS {
+			printf("Mientras\n");
+		}
+	;
+
+si: SI {
+			printf("Si\n");
+		}
+	;
+
+condicion: '(' escalar ')' {
+			printf("Condicion\n");
+		}
+	;
+
+sentencias: /* Epsilon */ {
+			printf("Epsilon\n");
+		}
+	| sentencias '\n'
+	| sentencias sentencia
+	;
+
+fin: /* Epsilon */ {
+			printf("Fin\n");
 		}
 	;
 

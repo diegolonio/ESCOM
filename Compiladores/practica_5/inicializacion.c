@@ -15,6 +15,9 @@ static struct {
     int valor;
 } palabras_reservadas[] = {
     "imprimir", IMPRIMIR,
+    "si", SI,
+    "sino", SINO,
+    "mientras", MIENTRAS,
     0, 0
 };
 
