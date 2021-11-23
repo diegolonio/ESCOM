@@ -35,14 +35,14 @@ lista: /* Epsilon */ { printf(">>> "); }
 	| lista asignacion '\n' { printf(">>> "); }
     | lista expresion '\n' {
 			if (!tamano_diferente) {
-				printf("\t"); mostrar_vector($2);
+				mostrar_vector($2);
 			} 
 			tamano_diferente = false;
 			printf(">>> ");
 		}
     | lista escalar '\n' {
 			if (!tamano_diferente)
-				printf("\t%d\n", $2);
+				printf("%d\n", $2);
 			tamano_diferente = false;
 			printf(">>> ");
 		}

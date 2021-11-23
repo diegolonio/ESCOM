@@ -31,10 +31,10 @@ bool tamano_diferente = false;
 
 %%
 
-list:  
-    | list '\n'
-    | list exp '\n' { if (!tamano_diferente) { printf("\t"); mostrar_vector($2); liberar_vector($2); } }
-    | list escalar '\n' { if (!tamano_diferente) printf("\t%d\n", $2); }
+list: /* Epsilon */ { printf(">>> "); }
+    | list '\n' { printf(">>> "); }
+    | list exp '\n' { if (!tamano_diferente) { mostrar_vector($2); liberar_vector($2); } printf(">>> "); }
+    | list escalar '\n' { if (!tamano_diferente) printf("%d\n", $2); printf(">>> "); }
     ;
 
 exp: vector { $$ = $1; }

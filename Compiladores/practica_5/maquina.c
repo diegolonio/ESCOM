@@ -66,7 +66,6 @@ void imprimir_vector()
     Datum elemento;
 
     elemento = pop();
-    printf("\t");
     mostrar_vector(elemento.vector);
 }
 
@@ -75,7 +74,7 @@ void imprimir_escalar()
     Datum elemento;
 
     elemento = pop();
-    printf("\t%d\n", elemento.escalar);
+    printf("%d\n", elemento.escalar);
 }
 
 void insertar_variable()
