@@ -18,6 +18,7 @@ static struct {
     "si", SI,
     "sino", SINO,
     "mientras", MIENTRAS,
+    "para", PARA,
     0, 0
 };
 

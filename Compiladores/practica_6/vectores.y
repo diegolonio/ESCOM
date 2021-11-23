@@ -14,8 +14,8 @@
 }
 
 %token <simbolo> ESCALAR VARIABLE INDEFINIDO FUNPREDEF
-%token <simbolo> IMPRIMIR MIENTRAS SI SINO
-%type <instruccion> sentencia sentencias condicion mientras si fin
+%token <simbolo> IMPRIMIR MIENTRAS SI SINO PARA
+%type <instruccion> sentencia sentencias condicion mientras si fin para
 %type <instruccion> asignacion expresion escalar vector componente
 
 %right '='
@@ -197,8 +197,23 @@ sentencia: expresion {
 			($1)[2] = (Instruccion)$6; /* Si la primera condición no se cumple */
 			($1)[3] = (Instruccion)$7; /* Fin del condicional */
 		}
+	| para '(' sentencia { codigo(PARO); } ';' condicion ';' sentencia { codigo(PARO); } ')' sentencia fin {
+			($1)[1] = (Instruccion)$6; /* Condición */
+			($1)[2] = (Instruccion)$8; /* Paso */
+			($1)[3] = (Instruccion)$11; /* Cuerpo del ciclo */
+			($1)[4] = (Instruccion)$12; /* Fin del ciclo */
+		}
 	| '{' sentencias '}' {
 			$$ = $2;
+		}
+	;
+
+para: PARA {
+			$$ = codigo(para);
+			codigo(PARO);
+			codigo(PARO);
+			codigo(PARO);
+			codigo(PARO);
 		}
 	;
 
@@ -227,7 +242,7 @@ sentencias: /* Epsilon */ {
 			$$ = cima_programa;
 		}
 	| sentencias '\n' {
-			printf(">>> ");
+			printf("\u2022\u2022\u2022 ");
 		}
 	| sentencias sentencia
 	;

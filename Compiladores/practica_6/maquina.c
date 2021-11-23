@@ -66,7 +66,6 @@ void imprimir_vector()
     Datum elemento;
 
     elemento = pop();
-    printf("\t");
     mostrar_vector(elemento.vector);
 }
 
@@ -75,7 +74,7 @@ void imprimir_escalar()
     Datum elemento;
 
     elemento = pop();
-    printf("\t%d\n", elemento.escalar);
+    printf("%d\n", elemento.escalar);
 }
 
 void insertar_variable()
@@ -402,4 +401,24 @@ void mientras()
     }
 
     contador_programa = *((Instruccion **)(guardar_contador_programa+1)); /* Siguiente instrucción después de la secuencia de instrucciones del ciclo */
+}
+
+void para()
+{
+    Datum elemento;
+    Instruccion *guardar_contador_programa = contador_programa; /* Cuerpo del ciclo */
+
+    ejecutar(guardar_contador_programa+4); /* Declaración de la variable de control */
+    ejecutar(*((Instruccion **)(guardar_contador_programa))); /* Evaluación de la condición */
+
+    elemento = pop();
+    
+    while (elemento.escalar) {
+        ejecutar(*((Instruccion **)(guardar_contador_programa+2))); /* Cuerpo del ciclo */
+        ejecutar(*((Instruccion **)(guardar_contador_programa+1))); /* Paso */
+        ejecutar(*((Instruccion **)(guardar_contador_programa))); /* Evaluación de la condición */
+        elemento = pop();
+    }
+
+    contador_programa = *((Instruccion **)(guardar_contador_programa+3)); /* Siguiente instrucción después de la secuencia de instrucciones del ciclo */
 }
