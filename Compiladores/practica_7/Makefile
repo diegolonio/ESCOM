@@ -5,7 +5,7 @@ vectores : $(OBJS)
 	@echo "-*Compilación completada*-"
 
 vectores.tab.o : vectores.tab.c vectores.h
-	@gcc -c vectores.tab.c -o vectores.tab.o
+	@gcc -Wno-incompatible-pointer-types -c vectores.tab.c -o vectores.tab.o
 
 vectores.tab.c : vectores.y
 	@bison -Wno-conflicts-sr -Wno-conflicts-rr -d vectores.y -o vectores.tab.c

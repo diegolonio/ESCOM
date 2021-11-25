@@ -77,6 +77,11 @@ void imprimir_escalar()
     printf("%d\n", elemento.escalar);
 }
 
+void imprimir_cadena()
+{
+    printf("%s\n", (char *)*contador_programa++);
+}
+
 void insertar_variable()
 {
     Datum elemento;

@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <string.h>
 #include <stdbool.h>
 #include <setjmp.h>
 #include "vectores.h"
@@ -13,10 +14,10 @@
 	Simbolo *simbolo;
 }
 
-%token <simbolo> ESCALAR VARIABLE INDEFINIDO FUNPREDEF
+%token <simbolo> ESCALAR VARIABLE INDEFINIDO FUNPREDEF CADENA
 %token <simbolo> IMPRIMIR MIENTRAS SI SINO PARA
-%type <instruccion> sentencia sentencias condicion mientras si fin para
-%type <instruccion> asignacion expresion escalar vector componente
+%type <instruccion> si mientras para condicion sentencia sentencias fin
+%type <instruccion> expresion expresiones asignacion escalar vector componente
 
 %right '='
 %left O
@@ -33,7 +34,7 @@ lista: /* Epsilon */ {
 		}
     | lista '\n' {
 			printf(">>> ");
-		} 
+		}
 	| lista asignacion '\n' {
 			codigo((Instruccion)pop);
 			codigo(PARO);
@@ -176,12 +177,7 @@ sentencia: expresion {
 	| escalar {
 			codigo((Instruccion)pop);
 		}
-	| IMPRIMIR expresion {
-			codigo(imprimir_vector);
-			$$ = $2;
-		}
-	| IMPRIMIR escalar {
-			codigo(imprimir_escalar);
+	| IMPRIMIR expresiones {
 			$$ = $2;
 		}
 	| mientras condicion sentencia fin {
@@ -205,6 +201,28 @@ sentencia: expresion {
 		}
 	| '{' sentencias '}' {
 			$$ = $2;
+		}
+	;
+
+expresiones: expresion {
+			codigo(imprimir_vector);
+		}
+	| escalar {
+			codigo(imprimir_escalar);
+		}
+	| CADENA {
+			$$ = codigo(imprimir_cadena);
+			codigo((Instruccion)$1);
+		}
+	| expresiones ',' expresion {
+			codigo(imprimir_vector);
+		}
+	| expresiones ',' escalar {
+			codigo(imprimir_escalar);
+		}
+	| expresiones ',' CADENA {
+			codigo(imprimir_cadena);
+			codigo((Instruccion)$3);
 		}
 	;
 
@@ -310,6 +328,26 @@ int yylex()
 		return nuevo_simbolo->tipo == INDEFINIDO ? VARIABLE : nuevo_simbolo->tipo;
 	}
 
+	if (c == '"') {
+		char sbuf[100], *p, *emalloc();
+
+		for (p = sbuf; (c = getchar()) != '"'; p++) {
+			if (c == '\n' || c == EOF)
+				ejecutar_error("faltan comillas dobles de cierre", "");
+			if (p >= sbuf + sizeof(sbuf) - 1) {
+				*p = '\0';
+				ejecutar_error("cadena demasiado grande", sbuf);
+			}
+			*p = backslash(c);
+		}
+
+		*p = 0;
+		yylval.simbolo = (Simbolo *)emalloc(strlen(sbuf)+1);
+		strcpy(yylval.simbolo, sbuf);
+
+		return CADENA;
+	}
+
 	switch (c) {
 		case '>':
 			return siguiente('=', MAYIGU, MAYQUE);
@@ -368,4 +406,20 @@ int siguiente(int caracter_esperado, int si_es, int no_es)
 	ungetc(c, stdin);
 	
 	return no_es;
+}
+
+int backslash(int c)
+{
+	char *index();
+	static char transtab[] = "b\bf\fn\nr\rt\t";
+
+	if (c != '\\')
+		return c;
+
+	c = getchar();
+
+	if (islower(c) && index(transtab, c))
+		return index(transtab, c)[1];
+
+	return c;
 }

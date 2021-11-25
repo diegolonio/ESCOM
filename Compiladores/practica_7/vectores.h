@@ -34,15 +34,6 @@ Vector *cruz(Vector *, Vector *);
 Vector *ppescalar(int, Vector *);
 int norma(Vector *);
 
-/* ------------------------------ Funciones del parser ------------------------------- */
-
-void yyerror(char *s);
-int yylex();
-void advertencia(char *s, char *t);
-void ejecutar_error(char *, char *);
-void inicializar();
-int siguiente(int, int, int);
-
 /* -------------------------------- Tabla de símbolos -------------------------------- */
 
 typedef struct Simbolo {
@@ -52,6 +43,7 @@ typedef struct Simbolo {
 		int escalar;
 		Vector *vector;
 		int (*apuntador)(Vector *);
+		char *cadena;
 	} u;
 	struct Simbolo *siguiente;
 } Simbolo;
@@ -59,6 +51,16 @@ typedef struct Simbolo {
 Simbolo *instalar(char *, int, Vector *, int);
 Simbolo *buscar(char *);
 char *emalloc(unsigned);
+
+/* ------------------------------ Funciones del parser ------------------------------- */
+
+void yyerror(char *);
+int yylex();
+void advertencia(char *, char *);
+void ejecutar_error(char *, char *);
+void inicializar();
+int siguiente(int, int, int);
+int backslash(int);
 
 /* --------------------------------- Máquina de pila --------------------------------- */
 
@@ -90,6 +92,7 @@ void push(Datum);
 
 void imprimir_vector();
 void imprimir_escalar();
+void imprimir_cadena();
 void insertar_variable();
 void insertar_escalar();
 void ejecutar_predefinida();
