@@ -12,15 +12,22 @@ static Datum *cima_pila; /* Siguiente espacio disponible en la pila del interpre
 Instruccion programa[TAMPROGRAMA]; /* La máquina */
 Instruccion *cima_programa; /* Siguiente espacio disponible para la generación de código */
 Instruccion *contador_programa; /* Contador de programa durante la ejecución de una secuencia de instrucciones */
+Instruccion *cima_subprograma = programa; /* Inicio del subprograma actual */
+bool retornando; /* true si hay una sentencia 'return' */
 
-bool tamano_diferente = false; /* ¿Los vectores tienen tamaños diferentes? */
+/* Configuración de la pila de función/procedimiento */
+#define NUMMARCOS 100
+Marco marcos[NUMMARCOS];
+Marco *cima_marcos;
 
 /* ---------------------------- Funciones sobre la máquina ---------------------------- */
 
 void iniciar_codigo() /* Iniciar la generación de código */
 {
+    cima_programa = cima_subprograma;
     cima_pila = pila;
-    cima_programa = programa;
+    cima_marcos = marcos;
+    retornando = false;
 }
 
 Instruccion *codigo(Instruccion nueva_instruccion) /* Insertar una nueva instrucción en la máquina */
@@ -426,4 +433,45 @@ void para()
     }
 
     contador_programa = *((Instruccion **)(guardar_contador_programa+3)); /* Siguiente instrucción después de la secuencia de instrucciones del ciclo */
+}
+
+void llamada()
+{
+    Simbolo *simbolo = (Simbolo *)contador_programa[0]; /* Entrada de la tabla de símbolos con la función */
+
+    if (cima_marcos++ >= &marcos[NUMMARCOS-1])
+        ejecutar_error(simbolo->nombre, "(func/proc) tamaño de pila excedido");
+
+    cima_marcos->simbolo = simbolo;
+    cima_marcos->numero_argumentos = (int)contador_programa[1];
+    cima_marcos->instruccion_despues_de_retornar = contador_programa + 2;
+    cima_marcos->nesimo_argumento = cima_pila - 1; /* Último argumento */
+    ejecutar(simbolo->u.definicion);
+    retornando = false;
+}
+
+void retornar() /* Retornar común de una función o de un procedimiento */
+{
+    int contador;
+    
+}
+
+void funcion_retornar() /* Retornar desde una función */
+{
+    Datum elemento;
+
+    if (cima_marcos->simbolo->tipo == PROCEDIMIENTO)
+        ejecutar_error(cima_marcos->simbolo->nombre, "(proc) retorna un valor");
+
+    elemento = pop(); /* Mantener el valor que retornó la función */
+    retornar();
+    push(elemento);
+}
+
+void procedimiento_retornar() /* Retornar desde un procedimiento */
+{
+    if (cima_marcos->simbolo->tipo == FUNCION)
+        ejecutar_error(cima_marcos->simbolo->nombre, "(func) no retorna un valor");
+
+    retornar();
 }

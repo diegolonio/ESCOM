@@ -43,6 +43,7 @@ typedef struct Simbolo {
 		int escalar;
 		Vector *vector;
 		int (*apuntador)(Vector *);
+		void (*definicion)();
 		char *cadena;
 	} u;
 	struct Simbolo *siguiente;
@@ -61,6 +62,8 @@ void ejecutar_error(char *, char *);
 void inicializar();
 int siguiente(int, int, int);
 int backslash(int);
+void dentro_de_definicion(char *);
+void definir(Simbolo *);
 
 /* --------------------------------- Máquina de pila --------------------------------- */
 
@@ -76,6 +79,16 @@ typedef void (*Instruccion)(); /* Tipo de dato: instrucción de máquina */
 
 extern Instruccion programa[];
 extern Instruccion *cima_programa; /* Siguiente espacio disponible para la generación de código */
+extern Instruccion *cima_subprograma; /* Inicio del subprograma actual */
+
+/* -------------------------- Pila de función/procedimiento --------------------------- */
+
+typedef struct Marco { /* Marco de pila de función/procedimiento */
+	Simbolo *simbolo; /* Entrada de la tabla de símbolos */
+	Instruccion *instruccion_despues_de_retornar; /* Dónde continuar ejecutando después de retornar */
+	Datum *nesimo_argumento; /* n-ésimo en la pila */
+	int numero_argumentos; /* Número de argumentos en la pila */
+} Marco;
 
 /* ---------------------------- Funciones sobre la máquina ---------------------------- */
 
@@ -124,5 +137,9 @@ void negacion();
 void si();
 void mientras();
 void para();
+void llamada();
+void retornar();
+void procedimiento_retornar();
+void funcion_retornar();
 
 #endif /* _VECTORES_H_ */

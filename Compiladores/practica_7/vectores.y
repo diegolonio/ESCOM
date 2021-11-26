@@ -7,17 +7,25 @@
 #include <setjmp.h>
 #include "vectores.h"
 
+bool fuera_de_definicion;
+
 %}
 
 %union {
 	Instruccion *instruccion;
 	Simbolo *simbolo;
+	int nargumentos
 }
 
 %token <simbolo> ESCALAR VARIABLE INDEFINIDO FUNPREDEF CADENA
 %token <simbolo> IMPRIMIR MIENTRAS SI SINO PARA
+%token <simbolo> FUNCION PROCEDIMIENTO RETORNAR FUNC PROC
+%token <nargumentos> ARGUMENTO
 %type <instruccion> si mientras para condicion sentencia sentencias fin
 %type <instruccion> expresion expresiones asignacion escalar vector componente
+%type <instruccion> inicio
+%type <simbolo> nombreproc
+%type <nargumentos> argumentos
 
 %right '='
 %left O
@@ -34,6 +42,9 @@ lista: /* Epsilon */ {
 		}
     | lista '\n' {
 			printf(">>> ");
+		}
+	| lista definicion '\n' {
+			printf("\u2022\u2022\u2022 ");
 		}
 	| lista asignacion '\n' {
 			codigo((Instruccion)pop);
@@ -56,6 +67,12 @@ asignacion: VARIABLE '=' expresion {
 			codigo(insertar_variable);
 			codigo((Instruccion)$1);
 			codigo(asignar);
+		}
+	| ARGUMENTO '=' expresion {
+			$$ = $3;
+			dentro_de_definicion("$");
+			codigo(argumento_asignar);
+			codigo((Instruccion)$1);
 		}
 	;
 
@@ -89,6 +106,17 @@ expresion: asignacion
 		}
     | expresion '*' escalar {
 			codigo(maquina_ppescalar_expesc);
+		}
+	| ARGUMENTO {
+			dentro_de_definicion("$");
+			$$ = codigo(argumento);
+			codigo((Instruccion)$1);
+		}
+	| FUNCION inicio '(' argumentos ')' {
+			$$ = $2;
+			codigo(llamada);
+			codigo((Instruccion)$1);
+			codigo((Instruccion)$4);
 		}
     ;
 
@@ -202,6 +230,21 @@ sentencia: expresion {
 	| '{' sentencias '}' {
 			$$ = $2;
 		}
+	| RETORNAR {
+			dentro_de_definicion("retornar");
+			codigo(procedimiento_retornar);
+		}
+	| RETORNAR expresion {
+			dentro_de_definicion("retornar");
+			$$ = $2;
+			codigo(funcion_retornar);
+		}
+	| PROCEDIMIENTO inicio '(' argumentos ')' {
+			$$ = $2;
+			codigo(llamada);
+			codigo((Instruccion)$1);
+			codigo((Instruccion)$4);
+		}
 	;
 
 expresiones: expresion {
@@ -263,6 +306,45 @@ sentencias: /* Epsilon */ {
 			printf("\u2022\u2022\u2022 ");
 		}
 	| sentencias sentencia
+	;
+
+definicion: FUNC nombreproc {
+			$2->tipo = FUNCION;
+			fuera_de_definicion = true;
+		} '(' ')' sentencia {
+			codigo(procedimiento_retornar);
+			definir($2);
+			fuera_de_definicion = false;
+		}
+	| PROC nombreproc {
+			$2->tipo = PROCEDIMIENTO;
+			fuera_de_definicion = true;
+		} '(' ')' sentencia {
+			codigo(procedimiento_retornar);
+			definir($2);
+			fuera_de_definicion = false;
+		}
+	;
+
+nombreproc: VARIABLE,
+	| FUNCION
+	| PROCEDIMIENTO
+	;
+
+argumentos: /* Epsilon */ {
+			$$ = 0;
+		}
+	| expresion {
+			$$ = $1;
+		}
+	| argumentos ',' expresion {
+			$$ = $1 + 1;
+		}
+	;
+
+inicio: /* Epsilon */ {
+			$$ = cima_programa;
+		}
 	;
 
 fin: /* Epsilon */ {
@@ -348,6 +430,21 @@ int yylex()
 		return CADENA;
 	}
 
+	if (c == '$') {
+		int n = 0;
+
+		while (isdigit(c = getchar()))
+			n = 10 * n + c - '0';
+
+		ungetc(c, stdin);
+
+		if (n == 0)
+			ejecutar_error("simbolo extraño $...", (char *)0);
+
+		yylval.nargumentos = n;
+		return ARGUMENTO;
+	}
+
 	switch (c) {
 		case '>':
 			return siguiente('=', MAYIGU, MAYQUE);
@@ -422,4 +519,16 @@ int backslash(int c)
 		return index(transtab, c)[1];
 
 	return c;
+}
+
+void dentro_de_definicion(char *s)
+{
+	if (!fuera_de_definicion)
+		ejecutar_error(s, "uso fuera de funcion/procedimiento");
+}
+
+void definir(Simbolo *simbolo) /* Insertar una función/procedimiento en la tabla de símbolos */
+{
+	simbolo->u.definicion = (Instruccion)cima_subprograma; /* Inicio del código de la función/procedimiento */
+	cima_subprograma = cima_programa; /* El código después del código de la función/procedimiento comienza aquí */
 }
