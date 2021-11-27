@@ -373,6 +373,16 @@ void escalares_no_iguales()
     push(elemento1);
 }
 
+void modulo()
+{
+    Datum elemento1, elemento2;
+
+    elemento2 = pop();
+    elemento1 = pop();
+    elemento1.escalar = (int)(elemento1.escalar % elemento2.escalar);
+    push(elemento1);
+}
+
 void negacion()
 {
     Datum elemento;

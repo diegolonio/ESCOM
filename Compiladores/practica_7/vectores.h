@@ -131,6 +131,7 @@ void menor_que();
 void menor_igual();
 void vectores_iguales();
 void vectores_no_iguales();
+void modulo();
 void escalares_iguales();
 void escalares_no_iguales();
 void negacion();

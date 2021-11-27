@@ -31,6 +31,7 @@ bool fuera_de_definicion;
 %left Y
 %left MAYQUE MAYIGU MENQUE MENIGU IGUAL NOIGUAL
 %left '+' '-'
+%left '%'
 %left 'x' '*'
 %left MENOSUNARIO NO
 
@@ -150,6 +151,9 @@ escalar:  expresion '*' expresion {
 		}
 	| escalar NOIGUAL escalar {
 			codigo(escalares_no_iguales);
+		}
+	| escalar '%' escalar {
+			codigo(modulo);
 		}
 	| NO escalar {
 			$$ = $2;
