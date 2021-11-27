@@ -200,26 +200,30 @@ componente:  ESCALAR ',' componente {
 	;
 
 sentencia: expresion {
-			codigo((Instruccion)pop);
+			codigo(imprimir_vector);
 		}
 	| escalar {
-			codigo((Instruccion)pop);
+			codigo(imprimir_escalar);
 		}
-	| IMPRIMIR expresiones {
-			$$ = $2;
+	| CADENA {
+			$$ = codigo(imprimir_cadena);
+			codigo((Instruccion)$1);
 		}
-	| mientras condicion sentencia fin {
-			($1)[1] = (Instruccion)$3; /* Cuerpo del ciclo */
-			($1)[2] = (Instruccion)$4; /* Fin del ciclo */
+	| IMPRIMIR '(' expresiones ')' {
+			$$ = $3;
 		}
-	| si condicion sentencia fin {
-			($1)[1] = (Instruccion)$3; /* Cuerpo del condicional */
-			($1)[3] = (Instruccion)$4; /* Fin del condicional */
+	| mientras '(' condicion ')' sentencia fin {
+			($1)[1] = (Instruccion)$5; /* Cuerpo del ciclo */
+			($1)[2] = (Instruccion)$6; /* Fin del ciclo */
 		}
-	| si condicion sentencia fin SINO sentencia fin {
-			($1)[1] = (Instruccion)$3; /* Cuerpo del condicional */
-			($1)[2] = (Instruccion)$6; /* Si la primera condición no se cumple */
-			($1)[3] = (Instruccion)$7; /* Fin del condicional */
+	| si '(' condicion ')' sentencia fin {
+			($1)[1] = (Instruccion)$5; /* Cuerpo del condicional */
+			($1)[3] = (Instruccion)$6; /* Fin del condicional */
+		}
+	| si '(' condicion ')' sentencia fin SINO sentencia fin {
+			($1)[1] = (Instruccion)$5; /* Cuerpo del condicional */
+			($1)[2] = (Instruccion)$8; /* Si la primera condición no se cumple */
+			($1)[3] = (Instruccion)$9; /* Fin del condicional */
 		}
 	| para '(' sentencia { codigo(PARO); } ';' condicion ';' sentencia { codigo(PARO); } ')' sentencia fin {
 			($1)[1] = (Instruccion)$6; /* Condición */
@@ -293,9 +297,8 @@ si: SI {
 		}
 	;
 
-condicion: '(' escalar ')' {
+condicion: escalar {
 			codigo(PARO);
-			$$ = $2;
 		}
 	;
 
