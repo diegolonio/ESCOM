@@ -14,16 +14,15 @@ bool fuera_de_definicion;
 %union {
 	Instruccion *instruccion;
 	Simbolo *simbolo;
-	int nargumentos
+	int nargumentos;
 }
 
 %token <simbolo> ESCALAR VARIABLE INDEFINIDO FUNPREDEF CADENA
 %token <simbolo> IMPRIMIR MIENTRAS SI SINO PARA
 %token <simbolo> FUNCION PROCEDIMIENTO RETORNAR FUNC PROC
 %token <nargumentos> ARGUMENTO
-%type <instruccion> si mientras para condicion sentencia sentencias fin
+%type <instruccion> si mientras para condicion sentencia sentencias inicio fin
 %type <instruccion> expresion expresiones asignacion escalar vector componente
-%type <instruccion> inicio
 %type <simbolo> nombreproc
 %type <nargumentos> argumentos
 
@@ -54,7 +53,6 @@ lista: /* Epsilon */ {
 	| lista sentencia '\n' {
 			codigo(PARO);
 			return 1;
-			printf(">>> ");
 		}
 	| lista error '\n' {
 			yyerrok;
@@ -71,7 +69,7 @@ asignacion: VARIABLE '=' expresion {
 	| ARGUMENTO '=' expresion {
 			$$ = $3;
 			dentro_de_definicion("$");
-			codigo(argumento_asignar);
+			codigo(asignacion_argumento);
 			codigo((Instruccion)$1);
 		}
 	;
@@ -200,14 +198,10 @@ componente:  ESCALAR ',' componente {
 	;
 
 sentencia: expresion {
-			codigo(imprimir_vector);
+			codigo((Instruccion)pop);
 		}
 	| escalar {
-			codigo(imprimir_escalar);
-		}
-	| CADENA {
-			$$ = codigo(imprimir_cadena);
-			codigo((Instruccion)$1);
+			codigo((Instruccion)pop);
 		}
 	| IMPRIMIR '(' expresiones ')' {
 			$$ = $3;
@@ -329,7 +323,7 @@ definicion: FUNC nombreproc {
 		}
 	;
 
-nombreproc: VARIABLE,
+nombreproc: VARIABLE
 	| FUNCION
 	| PROCEDIMIENTO
 	;
@@ -338,7 +332,7 @@ argumentos: /* Epsilon */ {
 			$$ = 0;
 		}
 	| expresion {
-			$$ = $1;
+			$$ = 1;
 		}
 	| argumentos ',' expresion {
 			$$ = $1 + 1;
@@ -369,7 +363,7 @@ int main(int argc, char *argv[])
 	setjmp(inicio);
 	
 	for (iniciar_codigo(); yyparse(); iniciar_codigo())
-		ejecutar(programa);
+		ejecutar(cima_subprograma);
 
 	return 0;
 }

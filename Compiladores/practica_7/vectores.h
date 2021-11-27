@@ -43,7 +43,7 @@ typedef struct Simbolo {
 		int escalar;
 		Vector *vector;
 		int (*apuntador)(Vector *);
-		void (*definicion)();
+		void (**definicion)();
 		char *cadena;
 	} u;
 	struct Simbolo *siguiente;
@@ -141,5 +141,8 @@ void llamada();
 void retornar();
 void procedimiento_retornar();
 void funcion_retornar();
+Vector **obtener_argumento();
+void argumento();
+void asignacion_argumento();
 
 #endif /* _VECTORES_H_ */

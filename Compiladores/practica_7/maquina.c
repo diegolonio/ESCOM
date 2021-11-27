@@ -44,7 +44,7 @@ Instruccion *codigo(Instruccion nueva_instruccion) /* Insertar una nueva instruc
 
 void ejecutar(Instruccion *instruccion) /* Ejecutar una instrucción de la máquina */
 {
-    for (contador_programa = instruccion; *contador_programa != PARO; )
+    for (contador_programa = instruccion; *contador_programa != PARO && !retornando; )
             (*(*contador_programa++))();
 }
 
@@ -395,7 +395,8 @@ void si()
     else if (*((Instruccion **)(guardar_contador_programa+1)))
         ejecutar(*((Instruccion **)(guardar_contador_programa+1))); /* Si la condición no se cumplió */
 
-    contador_programa = *((Instruccion **)(guardar_contador_programa+2)); /* Siguiente instrucción después la secuencia de instrucciones del condicional */
+    if (!retornando)
+        contador_programa = *((Instruccion **)(guardar_contador_programa+2)); /* Siguiente instrucción después la secuencia de instrucciones del condicional */
 }
 
 void mientras()
@@ -408,11 +409,16 @@ void mientras()
 
     while (elemento.escalar) {
         ejecutar(*((Instruccion **)(guardar_contador_programa))); /* Cuerpo del ciclo */
+
+        if (retornando)
+            break;
+
         ejecutar(guardar_contador_programa+2); /* Evaluación de la condición */
         elemento = pop();
     }
 
-    contador_programa = *((Instruccion **)(guardar_contador_programa+1)); /* Siguiente instrucción después de la secuencia de instrucciones del ciclo */
+    if (!retornando)
+        contador_programa = *((Instruccion **)(guardar_contador_programa+1)); /* Siguiente instrucción después de la secuencia de instrucciones del ciclo */
 }
 
 void para()
@@ -427,12 +433,17 @@ void para()
     
     while (elemento.escalar) {
         ejecutar(*((Instruccion **)(guardar_contador_programa+2))); /* Cuerpo del ciclo */
+
+        if (retornando)
+            break;
+
         ejecutar(*((Instruccion **)(guardar_contador_programa+1))); /* Paso */
         ejecutar(*((Instruccion **)(guardar_contador_programa))); /* Evaluación de la condición */
         elemento = pop();
     }
 
-    contador_programa = *((Instruccion **)(guardar_contador_programa+3)); /* Siguiente instrucción después de la secuencia de instrucciones del ciclo */
+    if (!retornando)
+        contador_programa = *((Instruccion **)(guardar_contador_programa+3)); /* Siguiente instrucción después de la secuencia de instrucciones del ciclo */
 }
 
 void llamada()
@@ -453,7 +464,13 @@ void llamada()
 void retornar() /* Retornar común de una función o de un procedimiento */
 {
     int contador;
-    
+
+    for (contador = 0; contador < cima_marcos->numero_argumentos; contador++)
+        pop();
+
+    contador_programa = (Instruccion *)cima_marcos->instruccion_despues_de_retornar;
+    --cima_marcos;
+    retornando = true;
 }
 
 void funcion_retornar() /* Retornar desde una función */
@@ -474,4 +491,32 @@ void procedimiento_retornar() /* Retornar desde un procedimiento */
         ejecutar_error(cima_marcos->simbolo->nombre, "(func) no retorna un valor");
 
     retornar();
+}
+
+Vector **obtener_argumento()
+{
+    int numero_argumentos = (int)*contador_programa++;
+
+    if (numero_argumentos > cima_marcos->numero_argumentos)
+        ejecutar_error(cima_marcos->simbolo->nombre, "faltan argumentos");
+
+    return &cima_marcos->nesimo_argumento[numero_argumentos-cima_marcos->numero_argumentos].vector;
+}
+
+void argumento()
+{
+    Datum elemento;
+
+    elemento.vector = *obtener_argumento();
+    push(elemento);
+}
+
+void asignacion_argumento()
+{
+    Datum elemento;
+
+    elemento = pop();
+    mostrar_vector(elemento.vector);
+    push(elemento);
+    *obtener_argumento() = elemento.vector;
 }

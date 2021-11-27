@@ -5,7 +5,7 @@ vectores : $(OBJS)
 	@echo "-*Compilación completada*-"
 
 vectores.tab.o : vectores.tab.c vectores.h
-	@gcc -Wno-incompatible-pointer-types -c vectores.tab.c -o vectores.tab.o
+	@gcc -Wno-incompatible-pointer-types -Wno-int-to-pointer-cast -c vectores.tab.c -o vectores.tab.o
 
 vectores.tab.c : vectores.y
 	@bison -Wno-conflicts-sr -Wno-conflicts-rr -d vectores.y -o vectores.tab.c
@@ -23,7 +23,7 @@ inicializacion.o : inicializacion.c vectores.h vectores.tab.h
 	@gcc -c inicializacion.c -o inicializacion.o
 
 maquina.o : maquina.c vectores.h vectores.tab.h
-	@gcc -c maquina.c -o maquina.o
+	@gcc -Wno-pointer-to-int-cast -c maquina.c -o maquina.o
 
 .PHONY : all clean
 

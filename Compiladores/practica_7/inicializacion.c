@@ -3,15 +3,6 @@
 
 static struct {
     char *nombre;
-    int (*funcion)(Vector *);
-} funciones_predefinidas[] = {
-    "norma", norma,
-    "dimension", dimension,
-    0, 0
-};
-
-static struct {
-    char *nombre;
     int valor;
 } palabras_reservadas[] = {
     "imprimir", IMPRIMIR,
@@ -19,6 +10,18 @@ static struct {
     "sino", SINO,
     "mientras", MIENTRAS,
     "para", PARA,
+    "funcion", FUNC,
+    "procedimiento", PROC,
+    "retornar", RETORNAR,
+    0, 0
+};
+
+static struct {
+    char *nombre;
+    int (*funcion)(Vector *);
+} funciones_predefinidas[] = {
+    "norma", norma,
+    "dimension", dimension,
     0, 0
 };
 
