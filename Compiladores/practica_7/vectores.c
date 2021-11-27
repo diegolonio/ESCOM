@@ -55,7 +55,7 @@ void mostrar_vector(Vector *vector)
 		vector->caminante = vector->caminante->siguiente;
 	}
 
-	printf("]\n");
+	printf("]");
 	vector->caminante = vector->componente_inicial;
 }
 

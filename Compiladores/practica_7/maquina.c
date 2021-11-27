@@ -81,12 +81,12 @@ void imprimir_escalar()
     Datum elemento;
 
     elemento = pop();
-    printf("%d\n", elemento.escalar);
+    printf("%d", elemento.escalar);
 }
 
 void imprimir_cadena()
 {
-    printf("%s\n", (char *)*contador_programa++);
+    printf("%s", (char *)*contador_programa++);
 }
 
 void insertar_variable()

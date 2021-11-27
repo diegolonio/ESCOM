@@ -209,6 +209,8 @@ sentencia: expresion {
 		}
 	| IMPRIMIR '(' expresiones ')' {
 			$$ = $3;
+			codigo(imprimir_cadena);
+			codigo((Instruccion)"\n");
 		}
 	| mientras '(' condicion ')' sentencia fin {
 			($1)[1] = (Instruccion)$5; /* Cuerpo del ciclo */
