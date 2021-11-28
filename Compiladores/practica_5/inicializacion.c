@@ -1,3 +1,13 @@
+/* 
+ * Nombre: Apolonio Villegas Diego Armando 
+ * Práctica: 5
+ * Tema: Decisiones y ciclos
+ * Opción: Calculadora de vectores
+ * Fecha 18/11/2021
+ * Grupo: 3CM17
+ * Materia: Compiladores
+ */
+
 #include "vectores.h"
 #include "vectores.tab.h"
 
