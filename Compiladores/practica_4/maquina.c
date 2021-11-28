@@ -1,3 +1,13 @@
+/* 
+ * Nombre: Apolonio Villegas Diego Armando 
+ * Práctica: 4
+ * Tema: Máquina virtual de pila
+ * Opción: Calculadora de vectores
+ * Fecha 17/11/2021
+ * Grupo: 3CM17
+ * Materia: Compiladores
+ */
+
 #include <stdio.h>
 #include "vectores.h"
 #include "vectores.tab.h"
