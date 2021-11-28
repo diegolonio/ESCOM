@@ -1,3 +1,11 @@
+# Nombre: Apolonio Villegas Diego Armando
+# Práctica: 1
+# Tema: yacc básico
+# Opción: Calculadora de vectores
+# Fecha 06/10/2021
+# Grupo: 3CM17
+# Materia: Compiladores
+
 OBJS = vectores.tab.o vectores.o
 
 vectores : $(OBJS)
