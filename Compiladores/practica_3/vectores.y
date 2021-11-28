@@ -40,33 +40,52 @@ bool tamano_diferente = false;
 
 %%
 
-lista: /* Epsilon */ { printf(">>> "); }
-    | lista '\n' { printf(">>> "); } 
-	| lista asignacion '\n' { printf(">>> "); }
+lista: /* Epsilon */ {
+			printf(">>> ");
+		}
+    | lista '\n' {
+			printf(">>> ");
+		} 
+	| lista asignacion '\n' {
+			printf(">>> ");
+		}
     | lista expresion '\n' {
 			if (!tamano_diferente) {
 				mostrar_vector($2);
-			} 
+			}
+
 			tamano_diferente = false;
 			printf(">>> ");
 		}
     | lista escalar '\n' {
 			if (!tamano_diferente)
 				printf("%d\n", $2);
+
 			tamano_diferente = false;
 			printf(">>> ");
 		}
-	| lista error '\n' { yyerrok; printf(">>> "); }
+	| lista error '\n' {
+			yyerrok;
+			printf(">>> ");
+		}
     ;
 
-asignacion: VARIABLE '=' expresion { $$ = $1->u.vector = $3; $1->tipo = VARIABLE; }
+asignacion: VARIABLE '=' expresion {
+			$$ = $1->u.vector = $3;
+			$1->tipo = VARIABLE;
+		}
 	;
 
-expresion: vector { $$ = $1; }
-	| '-' VARIABLE %prec MENOSUNARIO { $$ = ppescalar(-1, $2->u.vector); }
+expresion: vector {
+			$$ = $1;
+		}
+	| '-' VARIABLE %prec MENOSUNARIO {
+			$$ = ppescalar(-1, $2->u.vector);
+		}
 	| VARIABLE {
 			if ($1->tipo == INDEFINIDO)
 				ejecutar_error("variable indefinida", $1->nombre);
+			
 			$$ = $1->u.vector;
 		}
 	| asignacion
@@ -94,9 +113,15 @@ expresion: vector { $$ = $1; }
 				$$ = cruz($1, $3);
 			}
 		}
-    | escalar '*' expresion { $$ = ppescalar($1, $3); }
-    | expresion '*' escalar { $$ = ppescalar($3, $1); }
-    | '(' expresion ')' { $$ = $2; }
+    | escalar '*' expresion {
+			$$ = ppescalar($1, $3);
+		}
+    | expresion '*' escalar {
+			$$ = ppescalar($3, $1);
+		}
+    | '(' expresion ')' {
+			$$ = $2;
+		}
     ;
 
 escalar:  expresion '*' expresion {
@@ -107,19 +132,37 @@ escalar:  expresion '*' expresion {
 				$$ = punto($1, $3);
 			}
 		}
-	| '|' expresion '|' { $$ = norma($2); }
-	| NUMERO { $$ = $1; }
-	| '-' NUMERO %prec MENOSUNARIO { $$ = -$2; }
-	| '(' escalar ')' { $$ = $2; }
-	| FUNPREDEF '(' expresion ')' { $$ = (*($1->u.apuntador))($3); }
+	| '|' expresion '|' {
+			$$ = norma($2);
+		}
+	| NUMERO {
+			$$ = $1;
+		}
+	| '-' NUMERO %prec MENOSUNARIO {
+			$$ = -$2;
+		}
+	| '(' escalar ')' {
+			$$ = $2;
+		}
+	| FUNPREDEF '(' expresion ')' {
+			$$ = (*($1->u.apuntador))($3);
+		}
 	;
 
-vector: '[' componente ']' { $$ = crear_vector($2); }
+vector: '[' componente ']' {
+			$$ = crear_vector($2);
+		}
 	;
 
-componente:  NUMERO ',' componente { $$ = crear_componente($1, $3); }
-	| NUMERO { $$ = crear_componente($1, NULL); }
-	| '-' NUMERO %prec MENOSUNARIO { $$ = crear_componente(-$2, NULL); }
+componente:  NUMERO ',' componente {
+			$$ = crear_componente($1, $3);
+		}
+	| NUMERO {
+			$$ = crear_componente($1, NULL);
+		}
+	| '-' NUMERO %prec MENOSUNARIO {
+			$$ = crear_componente(-$2, NULL);
+		}
 	;
 
 %%
