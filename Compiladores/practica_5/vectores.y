@@ -237,7 +237,7 @@ sentencias: /* Epsilon */ {
 			$$ = cima_programa;
 		}
 	| sentencias '\n' {
-			printf(">>> ");
+			printf("\u2022\u2022\u2022 ");
 		}
 	| sentencias sentencia
 	;
@@ -352,6 +352,7 @@ void ejecutar_error(char *s, char *t)
 	advertencia(s, t);
 	longjmp(inicio, 0);
 }
+
 
 int siguiente(int caracter_esperado, int si_es, int no_es)
 {
