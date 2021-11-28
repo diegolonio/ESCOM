@@ -1,3 +1,11 @@
+# Nombre: Apolonio Villegas Diego Armando 
+# Práctica: 6
+# Tema: Ciclo for
+# Opción: Calculadora de vectores
+# Fecha 23/11/2021
+# Grupo: 3CM17
+# Materia: Compiladores
+
 OBJS = vectores.tab.o vectores.o simbolo.o inicializacion.o maquina.o
 
 vectores : $(OBJS)

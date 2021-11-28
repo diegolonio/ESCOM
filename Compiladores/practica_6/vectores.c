@@ -1,3 +1,13 @@
+/* 
+ * Nombre: Apolonio Villegas Diego Armando 
+ * Práctica: 6
+ * Tema: Ciclo for
+ * Opción: Calculadora de vectores
+ * Fecha 23/11/2021
+ * Grupo: 3CM17
+ * Materia: Compiladores
+ */
+
 #include <stdio.h>
 #include <math.h>
 #include "vectores.h"
