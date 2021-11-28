@@ -1,3 +1,13 @@
+/* 
+ * Nombre: Apolonio Villegas Diego Armando 
+ * Práctica: 7
+ * Tema: Funciones y procedimientos
+ * Opción: Calculadora de vectores
+ * Fecha 27/11/2021
+ * Grupo: 3CM17
+ * Materia: Compiladores
+ */
+
 #ifndef __VECTORES_H__
 #define __VECTORES_H__
 
