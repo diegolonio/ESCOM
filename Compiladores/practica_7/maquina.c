@@ -536,7 +536,6 @@ void asignacion_argumento()
     Datum elemento;
 
     elemento = pop();
-    mostrar_vector(elemento.vector);
     push(elemento);
     *obtener_argumento() = elemento.vector;
 }
