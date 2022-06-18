@@ -1,0 +1,71 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+#contPrincipal {
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+}
+#SelloW3C {
+    margin: 40px;
+    text-align: center;
+}
+#contPrincipal #Titulo {
+    margin-bottom: 50px;
+}
+#contPrincipal #Titulo h1 {
+    text-align: center;
+}
+#contPrincipal .Nivel {
+    margin-bottom: 40px;
+    position: relative;
+}
+#contPrincipal .Nivel .Subtitulo h2 {
+    text-align: center;
+}
+#contPrincipal .Nivel .Fila {
+    position: relative;
+    border: 1px solid white;
+}
+#contPrincipal .Nivel .Fila .UnidadAprendizaje {
+    width: 300px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding: 20px;
+    background-color: gold;
+}
+#contPrincipal .Nivel .uno {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin-left: 25px;
+}
+#contPrincipal .Nivel .dos {
+    position: absolute;
+    top: 0;
+    left: 300;
+    margin-left: 50px;
+}
+#contPrincipal .Nivel .tres {
+    position: absolute;
+    top: 0;
+    left: 600;
+    margin-left: 75px;
+}
+#contPrincipal .Nivel .Fila .UnidadAprendizaje .DatosUA {
+    margin-bottom: 15px;
+}
+#contPrincipal .Nivel .Fila .UnidadAprendizaje .DatosUA h3 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+#contPrincipal .Nivel .Fila .UnidadAprendizaje .DatosUA p {
+    line-height: 25px;
+}
+#contPrincipal .Nivel .Fila .UnidadAprendizaje .imagen img {
+    width: 100%;
+}
