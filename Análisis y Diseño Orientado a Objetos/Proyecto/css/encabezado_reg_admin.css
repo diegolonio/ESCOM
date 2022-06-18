@@ -1,0 +1,44 @@
+.contenedor_principal .encabezado {
+    width: 100%;
+    height: 35vh;
+    display: flex;
+    flex-flow: column wrap;
+    top: 0px;
+}
+
+.contenedor_principal .encabezado .contenedor_logo {
+    width: 100%;
+    height: 60%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+.contenedor_principal .encabezado .contenedor_logo .logo {
+    width: 5%;
+    height: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+.contenedor_principal .encabezado .contenedor_logo .logo a {
+    height: 100%;
+}
+
+.contenedor_principal .encabezado .contenedor_logo .logo a img {
+    height: 100%;
+    display: block;
+    position: relative;
+    top: 20px;
+}
+
+.contenedor_principal .encabezado h1 {
+    width: 100%;
+    height: 40%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #000;
+}

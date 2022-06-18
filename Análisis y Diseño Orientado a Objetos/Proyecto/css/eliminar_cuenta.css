@@ -1,0 +1,89 @@
+.contenedor_principal .encabezado {
+    justify-content: space-around;
+}
+
+.contenedor_principal .contenido {
+    height: 90vh;
+    width: 65%;
+}
+
+.contenedor_principal .contenido .contenedor_imagen {
+    height: 100%;
+    width: 40%;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.contenedor_principal .contenido .contenedor_imagen img {
+    width: 80%;
+}
+
+.contenedor_principal .contenido .formulario {
+    height: 100%;
+    width: 60%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+}
+
+.contenedor_principal .contenido .formulario .titulo {
+    width: 100%;
+    padding: 20px;
+}
+
+.contenedor_principal .contenido .formulario .titulo h1 {
+    font-size: 40px;
+    font-weight: 500;
+    text-align: center;
+}
+
+.contenedor_principal .contenido .formulario .advertencia {
+    width: 100%;
+    margin: 20px 0px;
+    padding: 20px;
+}
+
+.contenedor_principal .contenido .formulario .advertencia p {
+    width: 100%;
+    font-size: 24px;
+    text-align: center;
+}
+
+.contenedor_principal .contenido .formulario .botones {
+    width: 100%;
+    padding: 20px;
+}
+
+.contenedor_principal .contenido .formulario .botones form {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.contenedor_principal .contenido .formulario .botones a, button {
+    width: 30%;
+    display: block;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.contenedor_principal .contenido .formulario .botones button {
+    background-color: #fff;
+    border: 2px solid #000;
+    font-weight: 600;
+}
+
+.contenedor_principal .contenido .formulario .botones a {
+    background-color: #D6AF15;
+    border: 2px solid #D6AF15;
+    color: #fff;
+    font-weight: 600;
+}

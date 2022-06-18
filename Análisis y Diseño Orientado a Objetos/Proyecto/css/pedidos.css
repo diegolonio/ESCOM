@@ -1,0 +1,104 @@
+.contenedor_principal .encabezado {
+    justify-content: space-around;
+}
+
+.contenedor_principal .contenido {
+    min-height: 90vh;
+    flex-flow: column wrap;
+    align-items: center;
+}
+
+.contenedor_principal .contenido > div {
+    margin: 20px 0px;
+}
+
+.contenedor_principal .contenido .titulo {
+    width: 80%;
+    padding: 20px;
+    border: 3px solid #D6AF15;
+}
+
+.contenedor_principal .contenido .titulo h1 {
+    width: 100%;
+    color: #3b3b3b;
+    font-weight: 500;
+    font-size: 50px;
+    text-align: center;
+}
+
+.contenedor_principal .contenido .pedidos {
+    width: 80%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-evenly;
+}
+
+.contenedor_principal .contenido .pedidos .pedido {
+    width: 30%;
+    margin-bottom: 20px;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+}
+
+.contenedor_principal .contenido .pedidos .pedido > div {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #000;
+}
+
+.contenedor_principal .contenido .pedidos .pedido .nombre p {
+    font-weight: 600;
+    font-size: 30px;
+    text-align: center;
+}
+
+.contenedor_principal .contenido .pedidos .pedido .datos_pedido p {
+    font-weight: 600;
+    font-size: 20px;
+    margin: 10px 0px;
+}
+
+.contenedor_principal .contenido .pedidos .pedido .datos_pedido p span {
+    font-weight: 400;
+}
+
+.contenedor_principal .contenido .pedidos .pedido .total p {
+    font-weight: 600;
+    font-size: 20px;
+    margin: 10px 0px;
+}
+
+.contenedor_principal .contenido .pedidos .pedido .total p span {
+    font-weight: 400;
+}
+
+.contenedor_principal .contenido .pedidos .pedido .estatus p {
+    font-weight: 600;
+    font-size: 20px;
+    margin: 10px 0px;
+}
+
+.contenedor_principal .contenido .pedidos .pedido .estatus p span {
+    font-weight: 400;
+}
+
+.contenedor_principal .contenido .pedidos .pedido .estatus form {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor_principal .contenido .pedidos .pedido .estatus form button {
+    margin: 10px 0px;
+    padding: 10px 30px;
+    font-weight: 600;
+    font-size: 18px;
+    border: 2px solid #D6AF15;
+    border-radius: 5px;
+    background-color: unset;
+    color: #747474;
+    cursor: pointer;
+}

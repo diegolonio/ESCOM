@@ -1,0 +1,107 @@
+/* Estilos del título */
+
+.contenedor_principal .contenido .categorias {
+    width: 100%;
+    padding: 10px 20px;
+    margin-bottom: 60px;
+    display: flex;
+    flex-flow: row wrap;
+    border: 2px solid #fac612;
+    border-radius: 5px;
+    font-size: 35px;
+    margin: 20px;
+    justify-content: center;
+}
+
+
+/* Estilos de las tarjetas de los productos */
+
+.contenedor_principal .contenido a {
+    text-decoration: none;
+    color: #000;
+}
+
+.contenedor_principal .contenido a:visited {
+    color: #000;
+}
+
+.contenedor_principal .contenido .tarjetas_productos {
+    width: 100%;
+    margin: 20px 0px;
+    display: flex;
+    flex-flow:column;
+    justify-content: space-around;
+}
+
+.contenedor_principal .contenido .tarjetas_productos .tarjeta_producto {
+    width: 100%;
+    height: 150px;
+    padding: 10px 20px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-flow:row;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.contenedor_principal .contenido .tarjetas_productos .tarjeta_producto .datos {
+    width: 25%;
+    margin-left: 250px;
+    margin-right: 300px;
+    position: absolute;
+    font-size: 14px;
+    background-color: #fff;
+    text-align: center;
+    height: 10%;
+}
+
+.contenedor_principal .contenido .tarjetas_productos .tarjeta_producto .imagen_producto {
+    width: 25%;
+    position: relative;
+    top: -20%;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    
+}
+
+.contenedor_principal .contenido .tarjetas_productos .tarjeta_producto .imagen_producto img {
+    max-height: 100%;
+    max-width: 75%;
+    justify-content: center;
+    align-items: center;
+   
+}
+
+.contenedor_principal .contenido .tarjetas_productos .tarjeta_producto .datos_producto {
+    width: 90%;
+    display: flex;
+    flex-flow: column wrap;
+}
+
+
+.contenedor_principal .contenido .tarjetas_productos .tarjeta_producto .datos_producto p {
+    width: 50%;
+    height: 12%;
+    position: absolute;
+    font-size: 35px;
+    margin-left: 175px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.contenedor_principal .contenido .tarjetas_productos .tarjeta_producto .datos_producto .calif {
+    width: 25%;
+    height: 12%;
+    position: absolute;
+    margin-left: 500px;
+    text-align: center;
+    color: #fac612;
+    font-size: 24px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+

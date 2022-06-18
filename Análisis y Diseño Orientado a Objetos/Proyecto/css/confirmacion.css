@@ -1,0 +1,52 @@
+.contenedor_principal .contenido {
+    height: 90vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor_principal .contenido .tarjeta_digitos {
+    width: 45%;
+    margin: 40px;
+    padding: 40px;
+    border: 1px solid #000;
+    border-radius: 20px;
+}
+
+.contenedor_principal .contenido .tarjeta_digitos p {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.contenedor_principal .contenido .tarjeta_digitos form {
+    width: 100%;
+    margin-top: 60px;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+}
+
+.contenedor_principal .contenido .tarjeta_digitos form .inputs_digitos {
+    width: 100%;
+    margin-bottom: 60px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.contenedor_principal .contenido .tarjeta_digitos form .inputs_digitos input {
+    width: 20%;
+    height: 90px;
+    text-align: center;
+    font-size: 25px;
+    border: 1px solid #000;
+}
+
+.contenedor_principal .contenido .tarjeta_digitos form button {
+    width: 70%;
+    padding: 15px;
+    border: none;
+    border-radius: 15px;
+    background-color: #000;
+    color: #fff;
+}

@@ -1,0 +1,153 @@
+/* Estilos del logo de Mercury */
+
+.contenedor_principal .contenido .mercury {
+    width: 100%;
+    height: 200px;
+    margin-top: 20px;
+    padding-bottom: 20px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #000;
+}
+
+.contenedor_principal .contenido .mercury * {
+    height: 100%;
+}
+
+.contenedor_principal .contenido .mercury div img {
+    height: 100%;
+}
+
+.contenedor_principal .contenido .mercury h1 {
+    display: flex;
+    align-items: center;
+    font-size: 90px;
+    font-weight: 200;
+}
+
+/* Estilos de la leyenda "Lo más destacado" */
+
+.contenedor_principal .contenido .leyenda_destacado {
+    width: 40%;
+    height: 180px;
+    margin: 20px;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+}
+
+.contenedor_principal .contenido .leyenda_destacado > * {
+    height: 100%;
+}
+
+.contenedor_principal .contenido .leyenda_destacado .llama {
+    width: 35%;
+    height: 80%;
+}
+
+.contenedor_principal .contenido .leyenda_destacado p {
+    width: 65%;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    font-size: 40px;
+}
+
+.contenedor_principal .contenido .leyenda_destacado .llama img {
+    height: 100%;
+}
+
+/* Estilos de la leyenda "Descubre nuestros productos..." */
+
+.contenedor_principal .contenido .leyenda_descubre {
+    width: 50%;
+    height: 180px;
+    margin: 20px;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #c5c5c5;
+}
+
+.contenedor_principal .contenido .leyenda_descubre p {
+    width: 70%;
+    font-size: 20px;
+    text-align: center;
+}
+
+.contenedor_principal .contenido .leyenda_descubre .flecha_abajo {
+    width: 20%;
+    display: flex;
+    justify-content: center;
+}
+
+.contenedor_principal .contenido .leyenda_descubre .flecha_abajo i {
+    font-size: 50px;
+}
+
+/* Estilos de las tarjetas de los productos */
+
+.contenedor_principal .contenido .tarjetas_productos {
+    width: 100%;
+    margin: 20px 0px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.contenedor_principal .contenido .tarjetas_productos .tarjeta_producto {
+    width: 45%;
+    padding: 10px 20px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-flow: row wrap;
+    border: 2px solid #fac612;
+    border-radius: 5px;
+}
+
+.contenedor_principal .contenido .tarjetas_productos .tarjeta_producto h2 {
+    width: 100%;
+    margin-left: 30px;
+    margin-right: 300px;
+    padding: 0px 10px 10px 10px;
+    font-size: 24px;
+    position: relative;
+    top: -25px;
+    background-color: #fff;
+}
+
+.contenedor_principal .contenido .tarjetas_productos .tarjeta_producto .imagen_producto {
+    width: 40%;
+}
+
+.contenedor_principal .contenido .tarjetas_productos .tarjeta_producto .imagen_producto img {
+    width: 100%;
+}
+
+.contenedor_principal .contenido .tarjetas_productos .tarjeta_producto .datos_producto {
+    width: 60%;
+    display: flex;
+    flex-flow: column wrap;
+}
+
+.contenedor_principal .contenido .tarjetas_productos .tarjeta_producto .datos_producto h3 {
+    width: 100%;
+    text-align: center;
+}
+
+.contenedor_principal .contenido .tarjetas_productos .tarjeta_producto .datos_producto p {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+}
+
+.contenedor_principal .contenido .tarjetas_productos .tarjeta_producto .datos_producto .calif {
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    color: #fac612;
+    font-size: 24px;
+}

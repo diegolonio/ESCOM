@@ -1,0 +1,140 @@
+.contenedor_principal .contenido {
+    width: 100%;
+    margin: 50px 0px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    top: 0px;
+}
+
+.contenedor_principal .contenido .contenedor_sujeto {
+    width: 20%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor_principal .contenido .contenedor_sujeto img {
+    width: 100%;
+}
+
+.contenedor_principal .contenido form {
+    width: 40%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor_principal .contenido form > * {
+    width: 100%;
+    margin: 15px 0px;
+    display: flex;
+    align-items: center;
+}
+
+.contenedor_principal .contenido form a {
+    text-decoration: none;
+}
+
+.contenedor_principal .contenido form input:focus {
+    outline-width: 0px;
+}
+
+.contenedor_principal .contenido form .contenedor_correo {
+    flex-flow: row wrap;
+}
+
+.contenedor_principal .contenido form .contenedor_correo label {
+    width: 40%;
+    display: block;
+    font-weight: 600;
+    text-align: center;
+}
+
+.contenedor_principal .contenido form .contenedor_correo input {
+    width: 60%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #000;
+}
+
+.contenedor_principal .contenido form .contenedor_contrasenia {
+    flex-flow: row wrap;
+}
+
+.contenedor_principal .contenido form .contenedor_contrasenia label {
+    width: 40%;
+    display: block;
+    font-weight: 600;
+    text-align: center;
+}
+
+.contenedor_principal .contenido form .contenedor_contrasenia input {
+    width: 60%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #000;
+}
+
+.contenedor_principal .contenido form .contenedor_contrasenia a {
+    width: 100%;
+    margin: 10px 40px 10px 0px;
+    text-align: right;
+    color: #20a0e6;
+}
+
+.contenedor_principal .contenido form .contenedor_contrasenia a:visited {
+    color: #20a0e6;
+}
+
+.contenedor_principal .contenido form .contenedor_captcha {
+    margin: 30px;
+    flex-flow: row wrap;
+    justify-content: center;
+}
+
+.contenedor_principal .contenido form .mensaje_error {
+    width: 100%;
+    padding: 20px;
+    background-color: #D6AF15;
+    border-radius: 10px;
+}
+
+.contenedor_principal .contenido form .mensaje_error p {
+    text-align: center; 
+    width: 100%;
+}
+
+.contenedor_principal .contenido form .contenedor_botones {
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.contenedor_principal .contenido form .contenedor_botones * {
+    width: 40%;
+    padding: 10px 20px;
+    border: 1px solid #000;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.contenedor_principal .contenido form .contenedor_botones a {
+    color: #000;
+}
+
+.contenedor_principal .contenido form .contenedor_botones a:visited {
+    color: #000;
+}
+
+.contenedor_principal .contenido form .contenedor_botones button {
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+}
+
+.contenedor_principal .pie {
+    top: 0px;
+}

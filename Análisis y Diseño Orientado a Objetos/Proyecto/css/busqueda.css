@@ -1,0 +1,105 @@
+.contenedor_principal .contenido {
+    min-height: 90vh;
+    flex-flow: column wrap;
+    align-items: center;
+}
+
+.contenedor_principal .contenido .leyenda {
+    width: 100%;
+    margin: 20px 0px;
+}
+
+.contenedor_principal .contenido .leyenda p {
+    width: 100%;
+    font-size: 20px;
+}
+
+.contenedor_principal .contenido .leyenda p .resultados_para {
+    font-weight: 600;
+}
+
+.contenedor_principal .contenido > a {
+    width: 90%;
+    display: block;
+    text-decoration: none;
+    color: #000;
+}
+
+.contenedor_principal .contenido > a:visited {
+    color: #000;
+}
+
+.contenedor_principal .contenido a .tarjeta_producto {
+    height: 175px;
+    width: 100%;
+    margin: 20px 0px;
+    padding: 15px;
+    border: 3px solid #D6AF15;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.contenedor_principal .contenido a .tarjeta_producto .imagen_producto {
+    height: 100%;
+    width: 20%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    position: relative;
+    top: -30px;
+}
+
+.contenedor_principal .contenido a .tarjeta_producto .imagen_producto img {
+    height: 100%;
+}
+
+.contenedor_principal .contenido a .tarjeta_producto .datos_producto {
+    height: 100%;
+    width: 35%;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.contenedor_principal .contenido a .tarjeta_producto .datos_producto * {
+    text-align: center;
+}
+
+.contenedor_principal .contenido a .tarjeta_producto .datos_producto h2 {
+    width: 100%;
+    font-weight: 600;
+}
+
+.contenedor_principal .contenido a .tarjeta_producto .datos_producto h3 {
+    width: 80%;
+    font-weight: 500;
+    color: #808080;
+}
+
+.contenedor_principal .contenido a .tarjeta_producto .precio_producto {
+    height: 100%;
+    width: 15%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 24px;
+    color: #D6AF15;
+}
+
+.contenedor_principal .contenido a .tarjeta_producto .calificacion_producto {
+    height: 100%;
+    width: 15%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.contenedor_principal .contenido a .tarjeta_producto .calificacion_producto i {
+    font-size: 20px;
+    color: #D6AF15;
+}

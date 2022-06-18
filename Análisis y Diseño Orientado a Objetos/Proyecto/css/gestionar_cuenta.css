@@ -1,0 +1,65 @@
+.contenedor_principal .encabezado {
+    justify-content: space-around;
+}
+
+.contenedor_principal .contenido {
+    min-height: 90vh;
+    width: 65%;
+    padding: 20px;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor_principal .contenido > div, a {
+    margin: 10px 0px;
+}
+
+.contenedor_principal .contenido .titulo {
+    width: 100%;
+    padding: 20px;
+    border: 3px solid #D6AF15;
+}
+
+.contenedor_principal .contenido .titulo h1 {
+    width: 100%;
+    height: 100%;
+    color: #3b3b3b;
+    font-weight: 500;
+    font-size: 50px;
+    text-align: center;
+}
+
+.contenedor_principal .contenido a {
+    display: block;
+    width: 90%;
+    border: 1px solid #3b3b3b;
+    text-decoration: none;
+    color: #3b3b3b;
+}
+
+.contenedor_principal .contenido a:visited {
+    text-decoration: none;
+    color: #3b3b3b;
+}
+
+.contenedor_principal .contenido a .seccion {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+}
+
+.contenedor_principal .contenido a .seccion h2 {
+    width: 90%;
+    font-weight: 400;
+    font-size: 25px;
+}
+
+.contenedor_principal .contenido a .seccion i {
+    width: 10%;
+    text-align: center;
+    font-size: 40px;;
+}

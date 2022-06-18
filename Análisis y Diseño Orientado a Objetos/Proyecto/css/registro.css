@@ -1,0 +1,124 @@
+.contenedor_principal .contenido form {
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    flex-flow: row wrap;
+    align-content: space-around;
+    font-size: 24px;
+}
+
+.contenedor_principal .contenido form .roles {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.contenedor_principal .contenido form .roles div label {
+    margin-right: 10px;
+}
+
+.contenedor_principal .contenido form .datos_personales {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.contenedor_principal .contenido form .datos_personales > input {
+    width: 20%;
+    padding: 20px 10px;
+    text-align: center;
+    border: none;
+    border-bottom: 2px solid #000;
+}
+
+.contenedor_principal .contenido form .datos_personales > input:focus {
+    outline-width: 0px;
+}
+
+.contenedor_principal .contenido form .datos_personales .fecha {
+    width: 20%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+}
+
+.contenedor_principal .contenido form .datos_personales .fecha * {
+    width: 80%;
+}
+
+.contenedor_principal .contenido form .datos_personales .fecha label {
+    margin-bottom: 10px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.contenedor_principal .contenido form .datos_personales .fecha input {
+    text-align: center;
+}
+
+.contenedor_principal .contenido form .datos_contacto {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.contenedor_principal .contenido form .datos_contacto > input {
+    width: 20%;
+    padding: 20px 10px;
+    text-align: center;
+    border: none;
+    border-bottom: 2px solid #000;
+}
+
+.contenedor_principal .contenido form .datos_contacto > input:focus {
+    outline-width: 0px;
+}
+
+.contenedor_principal .contenido form .confirmacion {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.contenedor_principal .contenido form .confirmacion .declaracion {
+    width: 80%;
+    display: flex;
+    flex-flow: row wrap;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.contenedor_principal .contenido form .confirmacion .declaracion input {
+    width: 5%;
+}
+
+.contenedor_principal .contenido form .confirmacion .declaracion .declaracion_texto {
+    width: 90%;
+}
+
+.contenedor_principal .contenido form .confirmacion .declaracion .declaracion_texto label {
+    width: 100%;
+}
+
+.contenedor_principal .contenido form .confirmacion button {
+    width: 20%;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: #000; 
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+}

@@ -1,0 +1,32 @@
+/* Estilos para el contenedor del encabezado y los
+    contenedores hijos inmediatos */
+
+    .contenedor_principal .encabezado {
+        width: 100%;
+        height: 70px;
+        background-color: #000;
+        position: fixed;
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        align-items: center;
+        z-index: 100;
+    }
+    
+    .contenedor_principal .encabezado h1 {
+        color: #fff;
+        letter-spacing: 10px;
+        font-weight: 500;
+    }
+    
+    .contenedor_principal .encabezado .logo {
+        width: 5%;
+        position: absolute;
+        left: 138px;
+        top: 11px;
+    }
+    
+    .contenedor_principal .encabezado .logo img {
+        width: 70%;
+    }
+    

@@ -1,0 +1,148 @@
+.contenedor_principal .contenido {
+    overflow: hidden;
+}
+
+.contenedor_principal .contenido .cesta {
+    width: 50%;
+    height: 90vh;
+    padding: 15px;
+}
+
+.contenedor_principal .contenido .cesta .panel_productos {
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.contenedor_principal .contenido .cesta div {
+    width: 100%;
+}
+
+.contenedor_principal .contenido .cesta .texto h2 {
+    width: 100%;
+    margin: 10px 0px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.contenedor_principal .contenido .cesta .tarjeta_producto {
+    margin: 10px;
+    padding: 20px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contenedor_principal .contenido .cesta .tarjeta_producto .img_producto {
+    width: 30%;
+}
+
+.contenedor_principal .contenido .cesta .tarjeta_producto .img_producto img {
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.contenedor_principal .contenido .cesta .tarjeta_producto p {
+    width: 25%;
+    text-align: center;
+}
+
+.contenedor_principal .contenido .cesta .tarjeta_producto .cantidad {
+    width: 10%;
+}
+
+.contenedor_principal .contenido form {
+    width: 50%;
+    padding: 25px;
+    display: flex;
+    flex-flow: row wrap;
+    align-content: center;
+}
+
+.contenedor_principal .contenido form > * {
+    width: 100%;
+    margin: 10px;
+}
+
+.contenedor_principal .contenido form .contenedor_direccion, .contenedor_pago, .contenedor_cvv {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.contenedor_principal .contenido form .contenedor_subtotal, .contenedor_costo_envio, .contenedor_total {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.contenedor_principal .contenido form div label {
+    width: 40%;
+    text-align: center;
+    font-size: 16px;
+}
+
+.contenedor_principal .contenido form div select, input {
+    width: 40%;
+}
+
+.contenedor_principal .contenido form div select {
+    padding: 10px;
+    display: block;
+    margin: 10px 0px;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 5px;
+}
+
+.contenedor_principal .contenido form div input {
+    padding: 10px;
+    margin: 10px 0px;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.contenedor_principal .contenido form div input:focus {
+    outline-width: 0px;
+}
+
+.contenedor_principal .contenido form h2 {
+    width: 100%;
+    margin: 10px 0px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.contenedor_principal .contenido form .contenedor_botones {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.contenedor_principal .contenido form .contenedor_botones button {
+    width: 45%;
+    padding: 15px;
+    border: none;
+    border-radius: 20px;
+    background-color: #D6AF15;
+    font-weight: 600;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.contenedor_principal .contenido form .contenedor_botones a {
+    display: block;
+    width: 45%;
+    padding: 15px;
+    border: 1px solid #000;
+    border-radius: 20px;
+    background-color: #fff;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    color: #000;
+}

@@ -1,0 +1,165 @@
+/* Estilos para el contenedor del encabezado y los
+    contenedores hijos inmediatos */
+    
+.contenedor_principal .encabezado {
+    width: 100%;
+    height: 70px;
+    background-color: #000;
+    position: fixed;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    z-index: 100;
+}
+
+.contenedor_principal .encabezado > div {
+    width: 12%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor_principal .encabezado .botones_cuenta {
+    width: 22%;
+    justify-content: space-between;
+}
+
+.contenedor_principal .encabezado div a, nav a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+/* Estilos del logo */
+
+.contenedor_principal .encabezado .logo {
+    width: 5%;
+}
+
+.contenedor_principal .encabezado .logo img {
+    height: 70%;
+}
+
+/* Estilos del menu de categorías */
+
+.contenedor_principal .encabezado .categorias {
+    width: 12%;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor_principal .encabezado .categorias .boton_categorias {
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor_principal .encabezado .categorias .enlaces {
+    background-color: #fff;
+    border: 1px solid #e2e2e2;
+    border-top: none;
+    display: none;
+}
+
+.contenedor_principal .encabezado .categorias:hover .enlaces {
+    display: block;
+}
+
+.contenedor_principal .encabezado .categorias .enlaces a {
+    display: block;
+    width: 100%;
+    padding: 15px 20px;
+    color: #000;
+    font-size: 14px;
+}
+
+.contenedor_principal .encabezado .categorias .enlaces a:hover {
+    background-color: #f2f2f2;
+}
+
+/* Estilos de la barra de búsqueda */
+
+.contenedor_principal .encabezado .barra_navegacion {
+    width: 40%;
+}
+
+.contenedor_principal .encabezado .barra_navegacion form {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    border-radius: 20px;
+    background-color: #fff;
+}
+
+.contenedor_principal .encabezado .barra_navegacion form .icono_lupa {
+    width: 10%;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor_principal .encabezado .barra_navegacion form input {
+    width: 85%;
+    height: 90%;
+    border: none;
+    font-size: 16px;
+}
+
+.contenedor_principal .encabezado .barra_navegacion form input:focus {
+    outline-width: 0px;
+}
+
+.contenedor_principal .encabezado .carrito {
+    width: 5%;
+}
+
+.contenedor_principal .encabezado .cuenta {
+    justify-content: space-around;
+}
+
+.contenedor_principal .encabezado .botones_cuenta .cuenta {
+    height: 100%;
+    width: 55%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.contenedor_principal .encabezado .cuenta .imagen_cuenta {
+    height: 80%;
+}
+
+.contenedor_principal .encabezado .cuenta .imagen_cuenta img {
+    height: 100%;
+}
+
+.contenedor_principal .encabezado .cerrar_sesion {
+    width: 10%;
+}
+
+.contenedor_principal .encabezado .botones_cuenta .cerrar_sesion {
+    width: 45%;
+}
+
+.contenedor_principal .encabezado .cerrar_sesion form {
+    width: 100%;
+}
+
+.contenedor_principal .encabezado .cerrar_sesion form button {
+    width: 100%;
+    padding: 15px 20px;
+    border: none;
+    background-color: #000;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+}
