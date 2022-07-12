@@ -4,10 +4,10 @@ USE ieee.std_logic_unsigned.all;
 USE ieee.numeric_std.all;
 
 ENTITY memoria IS
-	GENERIC (
-		tam_palabra: INTEGER := 4;
-		bits_direcciones: INTEGER := 2
-	);
+    GENERIC (
+        tam_palabra: INTEGER := 4;
+        bits_direcciones: INTEGER := 2
+    );
 
     PORT (
         hab_mem, hab_esc: IN std_logic;
@@ -20,7 +20,7 @@ END memoria;
 
 ARCHITECTURE memoria OF memoria IS
     -- Para convertir la dirección de memoria en un índice
-	SIGNAL posicion: INTEGER;
+    SIGNAL posicion: INTEGER;
     -- Declaración del tipo Memoria: memoria de 2^{bits_direcciones} localidades de {tam_palabra} bits
     TYPE Memoria IS ARRAY (0 TO 2**bits_direcciones-1) OF std_logic_vector (tam_palabra-1 DOWNTO 0);
     SIGNAL entrada, salida: std_logic_vector (tam_palabra-1 DOWNTO 0) := (OTHERS => '0');
@@ -33,7 +33,7 @@ BEGIN
 
     PROCESS (hab_mem, hab_esc, direccion, entrada, mem, posicion) BEGIN
         IF (hab_mem = '1') THEN
-			posicion <= TO_INTEGER(UNSIGNED(direccion));
+            posicion <= TO_INTEGER(UNSIGNED(direccion));
 
             IF (hab_esc = '1') THEN
                 mem(posicion) <= entrada;
