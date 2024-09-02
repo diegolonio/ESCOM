@@ -1,0 +1,25 @@
+CREATE DATABASE tiendita;
+
+CREATE TABLE articulos (
+  ID int NOT NULL AUTO_INCREMENT,
+  nombre varchar(100) DEFAULT NULL,
+  descripcion text,
+  precio decimal(10, 2) DEFAULT NULL,
+  existencia int DEFAULT NULL,
+  relevancia int DEFAULT NULL,
+  PRIMARY KEY (ID)
+);
+
+CREATE TABLE carrito (
+  ID int DEFAULT NULL,
+  cantidad int DEFAULT NULL,
+  KEY ID (ID),
+  CONSTRAINT carrito_ibfk_1 FOREIGN KEY (ID) REFERENCES articulos (ID)
+);
+
+CREATE TABLE imagenes (
+  ID int DEFAULT NULL,
+  imagen longblob,
+  KEY ID (ID),
+  CONSTRAINT imagenes_ibfk_1 FOREIGN KEY (ID) REFERENCES articulos (ID)
+);

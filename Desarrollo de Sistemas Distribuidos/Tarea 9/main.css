@@ -1,0 +1,464 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap');
+
+* {
+    margin: 0px;
+    padding: 0px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+    font-family: "Open Sans", Arial;
+}
+
+#contenedor {
+    width: 100%;
+    height: 100vh;
+}
+
+#contenedor div {
+    width: 100%;
+    height: 100%;
+}
+
+#contenedor div div {
+    height: auto;
+}
+
+#contenedor div .botones {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#contenedor div div button {
+    display: block;
+    width: 250px;
+    height: 40px;
+    margin: auto;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+}
+
+#contenedor div div button:hover {
+    cursor: pointer;
+}
+
+#contenedor #menu {
+    background-color: aquamarine;
+}
+
+#contenedor #captura,
+#contenedor #compra,
+#contenedor #carrito {
+    display: none;
+}
+
+#contenedor #captura {
+    background-color: blueviolet;
+}
+
+#contenedor #captura form {
+    display: block;
+    width: 30%;
+    margin: 10px auto;
+}
+
+#contenedor #captura form * {
+    display: block;
+    border: none;
+    outline: none;
+}
+
+#contenedor #captura form p {
+    margin-bottom: 20px;
+    color: #fff;
+    font-size: 16pt;
+    text-align: center;
+}
+
+#contenedor #captura form input,
+#contenedor #captura form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    resize: none;
+}
+
+#contenedor #captura form textarea {
+    height: 120px;
+}
+
+#contenedor div .nombre_pantalla {
+    color: #fff;
+    text-align: center;
+    font-weight: bold;
+    font-size: 20pt;
+    padding-bottom: 20px;
+}
+
+#contenedor #compra .nombre_pantalla,
+#contenedor #carrito .nombre_pantalla {
+    margin: 0px;
+    position: fixed;
+    width: 100%;
+}
+
+#contenedor #compra .nombre_pantalla {
+    background-color: cadetblue;
+}
+
+#contenedor #carrito .nombre_pantalla {
+    background-color: chartreuse;
+}
+
+#contenedor #compra {
+    height: auto;
+    min-height: 100vh;
+    background-color: cadetblue;
+}
+
+#contenedor #carrito {
+    height: auto;
+    min-height: 100vh;
+}
+
+#contenedor #compra .separador,
+#contenedor #carrito .separador {
+    height: 100px;
+}
+
+#contenedor #carrito>div:nth-child(2) {
+    height: 35px;
+    background-color: black;
+}
+
+#contenedor #compra *,
+#contenedor #carrito * {
+    margin: 0px auto;
+    margin-bottom: 25px;
+}
+
+#contenedor #compra #buscar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 70%;
+    height: 60px;
+    margin: 10px auto;
+    position: fixed;
+    left: 15%;
+    top: 30px;
+    background-color: cadetblue;
+}
+
+#contenedor #compra #buscar * {
+    margin: 0px;
+    padding: 0px;
+}
+
+#contenedor #compra #buscar select {
+    width: 13%;
+    height: 70%;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+#contenedor #compra #buscar #barra {
+    display: flex;
+    width: 75%;
+}
+
+#contenedor #compra #buscar #barra * {
+    display: block;
+    margin: 0px;
+    padding: 0px;
+    border: none;
+    outline: none;
+}
+
+#contenedor #compra #buscar #barra input {
+    width: 80%;
+    border-radius: 10px 0px 0px 10px;
+    padding: 0px 20px;
+}
+
+#contenedor #compra #buscar #barra button {
+    width: 20%;
+    border-radius: 0px 10px 10px 0px;
+    background-color: black;
+    color: #fff;
+}
+
+#contenedor #compra #resultados,
+#contenedor #carrito #articulos {
+    width: 70%;
+    top: 20%;
+}
+
+#contenedor #compra #resultados .resultado,
+#contenedor #carrito #articulos .resultado {
+    display: flex;
+    justify-content: center;
+    width: 90%;
+    height: 150px;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+    z-index: 200;
+}
+
+#contenedor #compra #resultados .resultado *,
+#contenedor #carrito #articulos .resultado * {
+    margin: 0px;
+    padding: 0px;
+}
+
+#contenedor #compra #resultados .resultado .izquierda,
+#contenedor #carrito #articulos .resultado .izquierda {
+    width: 200px;
+    height: 100%;
+}
+
+#contenedor #compra #resultados .resultado .izquierda img,
+#contenedor #carrito #articulos .resultado .izquierda img {
+    display: block;
+    height: 100%;
+    margin: 0px auto;
+}
+
+#contenedor #compra #resultados .resultado .centro,
+#contenedor #carrito #articulos .resultado .centro {
+    width: auto;
+    height: 100%;
+    padding: 10px 0px 20px 30px;
+    margin-right: 20px;
+}
+
+#contenedor #compra #resultados .resultado .centro .nombre_producto,
+#contenedor #carrito #articulos .resultado .centro .nombre_producto {
+    font-size: 14pt;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+#contenedor #compra #resultados .resultado .derecha,
+#contenedor #carrito #articulos .resultado .derecha {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 200px;
+    height: 100%;
+    font-size: 10pt;
+}
+
+#contenedor #compra #resultados .resultado .derecha .precio_producto {
+    font-size: 20pt;
+    font-weight: bold;
+}
+
+#contenedor #compra #resultados .resultado .derecha div,
+#contenedor #carrito #articulos .resultado .derecha div {
+    display: flex;
+    align-items: center;
+}
+
+#contenedor #compra #resultados .resultado .derecha div p,
+#contenedor #carrito #articulos .resultado .derecha div p {
+    margin-right: 10px;
+}
+
+#contenedor #compra #resultados .resultado .derecha div input,
+#contenedor #carrito #articulos .resultado .derecha div input {
+    width: 111px;
+    padding: 2px 10px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    background-color: #f2f2f2;
+}
+
+#contenedor #compra #resultados .resultado .derecha button,
+#contenedor #carrito #articulos .resultado .derecha button {
+    width: 181px;
+    background-color: black;
+    color: white;
+}
+
+#contenedor #compra .botones,
+#contenedor #carrito .botones {
+    height: 110px;
+    margin-bottom: 0px;
+    position: fixed;
+    bottom: 0px;
+}
+
+#contenedor #compra .botones {
+    background-color: cadetblue;
+}
+
+#contenedor #carrito .botones {
+    background-color: chartreuse;
+}
+
+#contenedor #compra .botones button {
+    margin: 0px auto;
+}
+
+#contenedor #carrito {
+    background-color: chartreuse;
+}
+
+#contenedor #carrito #articulos .resultado:last-child {
+    margin-bottom: 0px;
+}
+
+#contenedor #carrito .total {
+    width: 100%;
+    margin: 0px auto;
+    padding: 10px;
+    font-size: 24pt;
+    font-weight: bold;
+    text-align: right;
+    position: fixed;
+    z-index: 300;
+    background-color: chartreuse;
+    bottom: 90px;
+}
+
+#contenedor #carrito .total p {
+    width: 60%;
+    margin-bottom: 0px;
+}
+
+#contenedor #carrito .separador:nth-last-child(2) {
+    height: 132px;
+}
+
+#contenedor #toast {
+    display: none;
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 400;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+#contenedor #toast #eliminar_articulo {
+    display: none;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 40%;
+    margin: auto;
+    border-radius: 10px;
+    background-color: white;
+}
+
+#contenedor #toast #eliminar_articulo .imagen {
+    width: 30%;
+    padding: 10px;
+}
+
+#contenedor #toast #eliminar_articulo .imagen img {
+    width: 100%;
+}
+
+#contenedor #toast #eliminar_articulo .datos {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 70%;
+    height: 55%;
+    padding: 10px;
+}
+
+#contenedor #toast #eliminar_articulo .datos p {
+    margin-bottom: 20px;
+}
+
+#contenedor #toast #eliminar_articulo .confirmacion {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    height: 30%;
+}
+
+#contenedor #toast #eliminar_articulo .confirmacion p {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#contenedor #toast #eliminar_articulo .datos #nombre_toast {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#contenedor #toast #eliminar_carrito {
+    display: none;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 40%;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: white;
+}
+
+#contenedor #toast #eliminar_carrito .confirmacion p {
+    font-size: 14pt;
+    width: 100%;
+    text-align: center;
+}
+
+#contenedor #toast #eliminar_carrito .confirmacion p:nth-child(1) {
+    width: 80%;
+    margin: 0px auto;
+    margin-bottom: 20px;
+}
+
+#contenedor #toast #eliminar_carrito .confirmacion p:nth-child(2) {
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#contenedor #compra #resultados .aviso,
+#contenedor #carrito #articulos .aviso {
+    width: 50%;
+    margin: 80px auto;
+}
+
+#contenedor #compra #resultados .aviso .imagen_aviso,
+#contenedor #carrito #articulos .aviso .imagen_aviso {
+    width: 50%;
+    margin: 0px auto;
+}
+
+#contenedor #compra #resultados .aviso .imagen_aviso img,
+#contenedor #carrito #articulos .aviso .imagen_aviso img {
+    width: 100%;
+}
+
+#contenedor #compra #resultados .aviso p,
+#contenedor #carrito #articulos .aviso p {
+    width: 100%;
+    text-align: center;
+}
+
+#contenedor #compra #resultados .aviso .caveat-aviso,
+#contenedor #carrito #articulos .aviso .caveat-aviso {
+    font-family: "Caveat", cursive;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 24pt;
+}

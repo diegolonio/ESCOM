@@ -1,0 +1,114 @@
+<!--
+Alumno: Apolonio Villegas Diego Armando
+Boleta: 2020630050
+Grupo: 4CV11
+Fecha: 8 de mayo del 2024
+-->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarea 9</title>
+    <link rel="stylesheet" href="./Servicio?nombre=main.css">
+</head>
+<body onload="inicializar()">
+    <div id="contenedor">
+        <div id="menu">
+            <p class="nombre_pantalla">MENÚ PRINCIPAL</p><br>
+            <div class="botones">
+                <button type="button" onclick="muestra_pantalla('captura')">Captura de Artículos</button>
+                <button type="button" onclick="muestra_pantalla('compra')">Compra de Artículos</button>
+            </div>
+        </div>
+
+        <div id="captura">
+            <p class="nombre_pantalla">CAPTURA DE ARTÍCULOS</p>
+            <form>
+                <p>Datos del Artículo</p>
+                <input type="text" name="nombre" id="nombre" placeholder="Nombre" maxlength="100">
+                <textarea name="descripcion" id="descripcion" placeholder="Descripción" maxlength="300"></textarea>
+                <input type="number" name="precio" id="precio" min="0" step="any" placeholder="Precio">
+                <input type="number" name="existencia" id="existencia" min="0" step="1" placeholder="Existencias">
+                <input type="number" name="relevancia" id="relevancia" min="1" max="100" step="1" placeholder="Relevancia">
+                <img id="alta_imagen" width="100px" src="./Servidor?nombre=paquete.jpg"></img>
+                <input type="file" id="imagen_file" onchange="readSingleFile(files,get('alta_imagen'))" multiple="false" accept="image/*"/>
+            </form>
+            <div class="botones">
+                <button type="button" onclick="limpiar_captura()">Limpiar Formulario</button>
+                <button type="button" onclick="insertar_articulo()">Capturar Artículo</button>
+                <button type="button" onclick="oculta_pantalla('captura'); limpiar_captura()">Regresar</button>
+            </div>
+        </div>
+
+        <div id="compra">
+            <p class="nombre_pantalla">COMPRA DE ARTÍCULOS</p>
+            <div id="buscar">
+                <div id="barra">
+                    <input type="text" name="busqueda" id="busqueda" placeholder="Buscar" maxlength="100">
+                    <button type="button" onclick="busqueda()">Buscar</button>
+                </div>
+                <p>Ordenar por: </p>
+                <select name="ordenar" id="ordenar">
+                    <option value="0">Ordenar</option>
+                    <option value="1">Precio (Menor a Mayor)</option>
+                    <option value="2">Precio (Mayor a Menor)</option>
+                    <option value="3">Relevancia</option>
+                </select>
+            </div>
+            <div class="separador"></div>
+            <div id="resultados"></div>
+            <div class="separador"></div>
+            <div class="botones">
+                <button type="button" onclick="oculta('compra'); obtener_carrito(); muestra('carrito');">Carrito de Compras</button>
+                <button type="button" onclick="oculta_pantalla('compra'); inicializar();">Regresar</button>
+            </div>
+        </div>
+
+        <div id="carrito">
+            <p class="nombre_pantalla">ARTÍCULOS EN EL CARRITO</p>
+            <div class="separador"></div>
+            <div id="articulos"></div>
+            <div class="total"><p id="total"></p></div>
+            <div class="separador"></div>
+            <div class="botones">
+                <button type="button" onclick="mostrar_toast('eliminar_carrito')">Eliminar Carrito</button>
+                <button type="button" onclick="oculta('carrito'); inicializar(); muestra('compra')">Seguir Comprando</button>
+            </div>
+        </div>
+
+        <div id="toast">
+            <div id="eliminar_articulo">
+                <div class="imagen"><img id="imagen"></div>
+                <div class="datos">
+                    <p id="nombre_toast"></p>
+                    <p id="descripcion_toast"></p>
+                    <p id="cantidad_toast"></p>
+                </div>
+                <div class="confirmacion">
+                    <p>¿Está seguro de que quiere eliminar este producto de su carrito?</p>
+                    <div class="botones">
+                        <button type="button" id="eliminar">Sí</button>
+                        <button type="button" onclick="ocultar_toast('eliminar_articulo')">No</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="eliminar_carrito">
+                <div class="confirmacion">
+                    <p>¿Está seguro de que quiere eliminar todos los productos de su carrito?</p>
+                    <p>Esta acción no se puede deshacer.</p>
+                    <div class="botones">
+                        <button type="button" onclick="eliminar_carrito()">Sí</button>
+                        <button type="button" onclick="ocultar_toast('eliminar_carrito')">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src='./Servidor?nombre=WSClient.js'></script>
+    <script src='./Servidor?nombre=main.js'></script>
+</body>
+</html>
