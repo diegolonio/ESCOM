@@ -6,14 +6,21 @@
 #define UBRR_VAL ((F_CPU / 8 / BAUD) - 1)
 
 void adc_init(void) {
-    ADMUX = (1 << REFS0); 
+    ADMUX  = (1 << REFS0); 
     ADCSRA = (1 << ADEN) | (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0); 
 }
 
+// Promedio de 8 muestras
 uint16_t adc_read(void) {
-    ADCSRA |= (1 << ADSC);
-    while (ADCSRA & (1 << ADSC));
-    return ADC;
+    ADCSRA |= (1 << ADSC); while (ADCSRA & (1 << ADSC)); // descarte
+    uint32_t acc = 0;
+
+    for (uint8_t k = 0; k < 8; k++) {
+        ADCSRA |= (1 << ADSC); while (ADCSRA & (1 << ADSC));
+        acc += ADC;
+    }
+
+    return (uint16_t)(acc >> 3);
 }
 
 void uart_init(void) {
@@ -36,23 +43,23 @@ void uart_print_int(int v) {
     while (*s) uart_tx(*s++);
 }
 
-// ── CONFIGURACIÓN DEL RELOJ (TIMER1) ──
+// -------------------- Configuración Timer1 --------------------
 void timer1_init(void) {
     // Modo CTC, Prescaler de 64
     TCCR1B = (1 << WGM12) | (1 << CS11) | (1 << CS10);
-    // Para 4ms exactos a 16MHz: (16M / (64 * 250Hz)) - 1 = 999
+    // (16M / (64 * 250Hz)) - 1 = 999
     OCR1A = 999;
 }
 
 void wait_for_timer(void) {
-    while (!(TIFR1 & (1 << OCF1A))); // Espera a la bandera del reloj
-    TIFR1 = (1 << OCF1A); // Limpia la bandera
+    while (!(TIFR1 & (1 << OCF1A))); // espera a la bandera del reloj
+    TIFR1 = (1 << OCF1A); // limpia la bandera
 }
 
 int main(void) {
     adc_init();
     uart_init();
-    timer1_init(); // Encendemos el reloj
+    timer1_init(); // encender el reloj
 
     while (1) {
         uint16_t valor = adc_read();

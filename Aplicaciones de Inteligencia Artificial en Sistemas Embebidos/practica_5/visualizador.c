@@ -1,3 +1,8 @@
+// ═══════════════════════════════════════════════════════════
+//  Detector de Anomalías y Visualizador (N=25, Timer1 @ 250Hz)
+//  Salida tabulada para script de Python + LEDs físicos
+//  Práctica 5 — Diego
+// ═══════════════════════════════════════════════════════════
 #define F_CPU 16000000UL
 
 #include <avr/io.h>
@@ -10,22 +15,22 @@
 #define N 25
 
 const float W[N] PROGMEM = {
-    -0.071289f,  0.174843f, -0.070229f, -0.081458f, -0.097000f,
-    -0.121959f, -0.077191f, -0.052925f, -0.327065f, -0.039282f,
-    -0.054737f, -0.406582f, -0.065124f, -0.017902f, -0.041104f,
-    -0.101886f, -0.028564f, -0.060785f,  0.082030f, -0.104902f,
-    -0.077841f, -0.013471f,  0.093754f, -0.100524f, -0.088673f
+     -0.071289f,  0.174843f, -0.070229f, -0.081458f, -0.097000f,
+     -0.121959f, -0.077191f, -0.052925f, -0.327065f, -0.039282f,
+     -0.054737f, -0.406582f, -0.065124f, -0.017902f, -0.041104f,
+     -0.101886f, -0.028564f, -0.060785f,  0.082030f, -0.104902f,
+     -0.077841f, -0.013471f,  0.093754f, -0.100524f, -0.088673f
 };
 
-const float BIAS = 1393.227666f;
-const float THRESHOLD = 14.1507f;
+const float BIAS      = 1393.227666f;
+const float THRESHOLD = 14.1507f; // Umbral ajustado
 
 #define CONSEC_REQ 3
 
 // ── Pines de LEDs ──────────────────────────────────────────
-#define PIN_VERDE PD2
+#define PIN_VERDE    PD2
 #define PIN_AMARILLO PD3
-#define PIN_AZUL PD4
+#define PIN_AZUL     PD4
 
 void led_init(void) {
     DDRD |= (1 << PIN_VERDE) | (1 << PIN_AMARILLO) | (1 << PIN_AZUL);
@@ -84,7 +89,7 @@ void uart_print_int(int v) {
     uart_print(buf);
 }
 
-// ── Timer1 ───────────────────────────────────
+// ── Timer1 (4ms exactos) ───────────────────────────────────
 void timer1_init(void) {
     TCCR1B = (1 << WGM12) | (1 << CS11) | (1 << CS10);
     OCR1A = 999;
@@ -96,9 +101,9 @@ void wait_for_timer(void) {
 }
 
 // ── Lógica Principal ───────────────────────────────────────
-float window[N] = {0};
-uint8_t idx = 0;
-int consec = 0;
+float    window[N] = {0};
+uint8_t  idx       = 0;
+int      consec    = 0;
 
 int main(void) {
     adc_init();
@@ -143,7 +148,7 @@ int main(void) {
         uart_print_float(y_real); uart_tx('\t');
         uart_print_float(y_hat);  uart_tx('\t');
         uart_print_float(error);  uart_tx('\t');
-        uart_print_int((estado_actual == ANOMALY) ? 100 : 0);
+        uart_print_int((estado_actual == ANOMALY) ? 100 : 0); // Pico de 100 para la gráfica
         uart_tx('\r'); uart_tx('\n');
 
         // 6. Actualizar ventana
@@ -153,6 +158,5 @@ int main(void) {
         // 7. Sincronización de hardware
         wait_for_timer(); 
     }
-    
     return 0;
 }

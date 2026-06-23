@@ -1,17 +1,21 @@
+# ═══════════════════════════════════════════════════════════
+#  Visualizador del detector de anomalías (Actualizado 250Hz)
+#  Lee 4 columnas: y_real, y_hat, error, flag
+# ═══════════════════════════════════════════════════════════
 import serial
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from collections import deque
 import sys
 
-PORT = '/dev/ttyUSB0'
-BAUD = 115200
+PORT       = '/dev/ttyUSB0'
+BAUD       = 115200
 BUFFER_LEN = 500
-THRESHOLD = 14.1507
+THRESHOLD  = 14.1507
 
-buf_real = deque([0] * BUFFER_LEN, maxlen=BUFFER_LEN)
-buf_hat = deque([0] * BUFFER_LEN, maxlen=BUFFER_LEN)
-buf_error = deque([0] * BUFFER_LEN, maxlen=BUFFER_LEN)
+buf_real    = deque([0] * BUFFER_LEN, maxlen=BUFFER_LEN)
+buf_hat     = deque([0] * BUFFER_LEN, maxlen=BUFFER_LEN)
+buf_error   = deque([0] * BUFFER_LEN, maxlen=BUFFER_LEN)
 buf_anomaly = deque([False] * BUFFER_LEN, maxlen=BUFFER_LEN)
 
 try:

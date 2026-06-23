@@ -4,17 +4,17 @@ from matplotlib.animation import FuncAnimation
 from collections import deque
 import sys
 
-# ── Configuración ──────────────────────────────────────────
+# -------------------- Configuración --------------------
 PORT = '/dev/ttyUSB0'
 BAUD = 115200
 BUFFER_LEN = 500
 Y_MIN = 0
 Y_MAX = 1023
 
-# ── Buffer circular (solo para la señal real) ──────────────
+# -------------------- Buffer circular --------------------
 buf_real = deque([0] * BUFFER_LEN, maxlen=BUFFER_LEN)
 
-# ── Conectar al puerto serial ──────────────────────────────
+# -------------------- Conectarse al puerto serial --------------------
 try:
     ser = serial.Serial(PORT, BAUD, timeout=1)
     print(f"Conectado a {PORT} a {BAUD} baudios")
@@ -22,7 +22,7 @@ except serial.SerialException as e:
     print(f"Error al abrir {PORT}: {e}")
     sys.exit(1)
 
-# ── Configurar la figura ───────────────────────────────────
+# -------------------- Configuración de la figura --------------------
 fig, ax = plt.subplots(figsize=(10, 4))
 line_real, = ax.plot([], [], 'b-', linewidth=1.5, label='Señal real (A0)')
 
@@ -45,7 +45,7 @@ def update(frame):
             if not line:
                 continue
 
-            # El Arduino UNO manda solo un número
+            # El UNO manda solo un número
             parts = line.split('\t')
             if len(parts) >= 1: 
                 y_real = float(parts[0])
@@ -58,7 +58,7 @@ def update(frame):
     line_real.set_data(x, list(buf_real))
     return line_real,
 
-# ── Iniciar animación ──────────────────────────────────────
+# -------------------- Iniciar animación --------------------
 ani = FuncAnimation(fig, update, interval=50, blit=False, cache_frame_data=False)
 
 try:
