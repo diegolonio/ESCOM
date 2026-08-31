@@ -1,0 +1,14 @@
+[project]
+name = "procesamiento-de-lenguaje-natural"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "jupyter>=1.1.1",
+    "nltk>=3.10.3",
+    "numpy>=2.5.2",
+    "pandas>=3.0.5",
+    "pandas-stubs>=3.0.5.260730",
+    "spacy>=3.8.16",
+]
