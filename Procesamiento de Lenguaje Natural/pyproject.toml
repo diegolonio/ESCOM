@@ -5,6 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
+    "beautifulsoup4>=4.15.0",
     "jupyter>=1.1.1",
     "matplotlib>=3.11.2",
     "nltk>=3.10.3",
